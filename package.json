@@ -1,0 +1,44 @@
+{
+  "name": "myrnews-tgbot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Myrotvorets.news Telegram Bot",
+  "scripts": {
+    "build": "tsc && cp .env package.json dist/",
+    "prenodemon": "mkdir -p /var/lib/bot || true; env; knex migrate:latest --knexfile ./src/knexfile.ts",
+    "nodemon": "nodemon",
+    "test": "jest",
+    "build:image": "docker build -t myrnews-bot:latest . && docker image save myrnews-bot:latest > image.tar"
+  },
+  "main": "./dist/index.js",
+  "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
+  "license": "MIT",
+  "dependencies": {
+    "@bugsnag/js": "^7.1.1",
+    "axios": "^0.19.2",
+    "envalid": "^6.0.1",
+    "knex": "^0.21.1",
+    "mysql": "^2.18.1",
+    "sqlite3": "^4.2.0",
+    "telegraf": "^3.38.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.5",
+    "@types/sqlite3": "^3.1.6",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^26.0.1",
+    "merge": "^1.2.1",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "telegram-typings": "^3.6.1",
+    "ts-jest": "^26.0.0",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
+  }
+}

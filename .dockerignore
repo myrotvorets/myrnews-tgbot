@@ -1,0 +1,8 @@
+*
+!src
+!nodemon.json
+!package.json
+!tsconfig.json
+!.env
+!production.env
+
