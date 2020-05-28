@@ -25,17 +25,19 @@ export async function queryCallbackHandler({
 
     try {
         const pid = parseInt(post_id, 10);
-        await react(db, pid, user_id, reaction as Reaction);
 
-        await answerCbQuery('OK!');
-        await editMessageReplyMarkup({
-            inline_keyboard: buildInlineKeyboardFromMarkup(
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (cq?.message as any).reply_markup, // ! Typings are incorrect, they miss `reply_markup` field
-                await getPostStats(db, pid),
-                pid,
-            ),
-        });
+        await Promise.all([
+            react(db, pid, user_id, reaction as Reaction),
+            answerCbQuery('OK!'),
+            editMessageReplyMarkup({
+                inline_keyboard: buildInlineKeyboardFromMarkup(
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (cq?.message as any)?.reply_markup, // ! Typings are incorrect, they miss `reply_markup` field
+                    await getPostStats(db, pid),
+                    pid,
+                ),
+            }),
+        ]);
     } catch (e) {
         Bugsnag.notify(e);
     }
