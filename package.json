@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "description": "Myrotvorets.news Telegram Bot",
   "scripts": {
-    "build": "tsc && cp .env package.json dist/",
+    "build": "tsc",
+    "prestart": "cp package.json dist/; [ -f .env ] && cp .env dist/",
+    "start": "node ./dist/index.js",
     "prenodemon": "mkdir -p /var/lib/bot || true; env; knex migrate:latest --knexfile ./src/knexfile.ts",
     "nodemon": "nodemon",
     "test": "jest",
