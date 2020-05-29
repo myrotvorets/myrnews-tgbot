@@ -23,7 +23,6 @@
     "envalid": "^6.0.1",
     "knex": "^0.21.1",
     "mysql": "^2.18.1",
-    "sqlite3": "^4.2.0",
     "telegraf": "^3.38.0"
   },
   "devDependencies": {
@@ -41,6 +40,7 @@
     "merge": "^1.2.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
+    "sqlite3": "^4.2.0",
     "telegram-typings": "^3.6.1",
     "ts-jest": "^26.0.0",
     "ts-node": "^8.10.1",
