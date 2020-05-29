@@ -10,11 +10,16 @@ if (process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'test') {
 module.exports = merge.recursive(ts_preset, {
     collectCoverage: true,
     collectCoverageFrom: [
-        "src/**/*.ts",
-        "!src/migrations/**",
-        "!src/test/**",
+        'src/**/*.ts',
+        '!src/migrations/**',
+        '!src/test/**',
     ],
+    clearMocks: true,
     verbose: true,
+    testPathIgnorePatterns: [
+        '<rootDir>/dist/',
+        '<rootDir>/node_modules/',
+    ],
     globals: {
         'ts-jest': {
             packageJson: 'package.json',

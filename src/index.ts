@@ -36,6 +36,7 @@ import { startBugsnag } from './lib/bugsnag';
         lifecycle(env, bot);
     } catch (e) {
         Bugsnag.notify(e);
+        console.error(e);
         process.exit(1);
     }
 })();

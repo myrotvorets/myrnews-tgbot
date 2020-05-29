@@ -8,8 +8,6 @@ jest.mock('axios');
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-beforeEach((): unknown => jest.resetAllMocks());
-
 describe('getPosts', (): void => {
     it('should properly extract data', async (): Promise<unknown> => {
         mockedAxios.get.mockResolvedValue({ data: getPostsResponse });
