@@ -69,7 +69,6 @@ describe('buildInlineKeyboardFromMarkup()', (): void => {
 
         expect(actual).toHaveLength(2);
         expect(actual[0]).toHaveLength(1);
-        expect(actual[0][0]).toHaveProperty('url');
         expect(actual[1]).toHaveLength(4);
         for (let i = 0; i < actual[0].length; ++i) {
             expect(actual[1][i]).toHaveProperty('callback_data');
@@ -88,8 +87,8 @@ describe('buildInlineKeyboardFromMarkup()', (): void => {
         const actual = buildInlineKeyboardFromMarkup(undefined, stats, 1);
         expect(actual).toHaveLength(2);
         expect(actual[0]).toHaveLength(1);
-        expect(actual[0][0]).toHaveProperty('url');
-        expect(actual[0][0].url).toMatch(/\?p=1$/);
+        expect(actual[0][0]).toHaveProperty('text');
+        expect(actual[0][0].text).toEqual('');
     });
 
     describe('reaction buttons', (): void => {

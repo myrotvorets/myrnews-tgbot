@@ -28,7 +28,7 @@ export function buildInlineKeyboardFromMarkup(
         [
             markup && markup.inline_keyboard[0] && markup.inline_keyboard[0][0]
                 ? markup.inline_keyboard[0][0]
-                : Markup.urlButton('Читати далі…', `https://myrotvorets.news/?p=${postId}`),
+                : Markup.button(''),
         ],
         [
             Markup.callbackButton(likes ? `${TEXT_LIKE} ×${likes}` : `${TEXT_LIKE}`, `L:${postId}`),
