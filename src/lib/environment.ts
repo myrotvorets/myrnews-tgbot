@@ -50,7 +50,6 @@ export function getEnvironment(): Environment {
             },
             {
                 strict: true,
-                dotEnvPath: '.env',
             },
         );
 

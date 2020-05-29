@@ -1,4 +1,5 @@
 import Bugsnag from '@bugsnag/js';
+import debug from 'debug';
 import knex from 'knex';
 import Telegraf from 'telegraf';
 import { InlineKeyboardMarkup } from 'telegram-typings';
@@ -7,6 +8,9 @@ import { Environment } from '../lib/environment';
 import { buildInlineKeyboardFromPost, generateDescription } from '../lib/utils';
 import { getFeaturedImageUrl, getPosts } from '../lib/wpapi';
 import { BotContext, PostData } from '../types';
+
+const error = debug('bot:error');
+const dbg = debug('bot:debug');
 
 async function getNewPosts(baseUrl: string, db: knex): Promise<PostData[]> {
     const result: PostData[] = [];
@@ -32,14 +36,17 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
             const parse_mode = 'HTML';
             const text = generateDescription(entry);
             if (entry.img) {
+                dbg('Sending post %d as photo', entry.id);
                 await bot.telegram.sendPhoto(chat, entry.img, { caption: text, parse_mode, reply_markup });
             } else {
+                dbg('Sending post %d as message', entry.id);
                 await bot.telegram.sendMessage(chat, text, { parse_mode, reply_markup });
             }
 
             await addPost(bot.context.db, entry.id);
         } catch (e) {
             Bugsnag.notify(e);
+            error(e);
         }
     }
 }
@@ -48,11 +55,13 @@ export function lifecycle(env: Environment, bot: Telegraf<BotContext>): void {
     const inner = async function (): Promise<void> {
         try {
             const posts = await getNewPosts(env.NEWS_ENDPOINT, bot.context.db);
+            dbg('Got %d new posts', posts.length);
             if (posts.length) {
                 await sendNewPosts(bot, env.CHAT_ID, posts);
             }
         } catch (e) {
             Bugsnag.notify(e);
+            error(e);
         }
 
         setTimeout(inner, env.FETCH_INTERVAL);

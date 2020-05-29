@@ -1,14 +1,17 @@
 /* istanbul ignore file */
 
-import Bugsnag, { Event } from '@bugsnag/js';
+import Bugsnag from '@bugsnag/js';
 import fs from 'fs';
 import path from 'path';
-import { inspect, promisify } from 'util';
+import { promisify } from 'util';
 import { Environment } from './environment';
 
-function onError(e: Event): boolean {
+/**
+ * Strictly speaking, this function is not needed.
+ * However, we leave it in case in future we may need to filter out some data etc.
+ */
+function onError(): boolean {
     if (process.env.NODE_ENV !== 'production') {
-        console.error(inspect(e.errors, false, 5, false));
         return false;
     }
 

@@ -19,7 +19,9 @@
   "license": "MIT",
   "dependencies": {
     "@bugsnag/js": "^7.1.1",
+    "@types/debug": "^4.1.5",
     "axios": "^0.19.2",
+    "debug": "^4.1.1",
     "envalid": "^6.0.1",
     "knex": "^0.21.1",
     "mysql": "^2.18.1",

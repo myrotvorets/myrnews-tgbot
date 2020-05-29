@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { InlineKeyboardMarkup } from 'telegram-typings';
+import debug from 'debug';
 import Bugsnag from '@bugsnag/js';
-import { BotContext } from '../types';
+import type { BotContext } from '../types';
 import { buildInlineKeyboardFromMarkup } from './utils';
 import { getPostStats } from './db';
 
@@ -14,10 +15,12 @@ interface QueuedItem {
 }
 
 const queue: Record<string | number, QueuedItem> = {};
+const error = debug('bot:error');
+const dbg = debug('bot:debug');
 
 function notify(e: Error): void {
     Bugsnag.notify(e);
-    console.error(e);
+    error(e);
 }
 
 async function processOne(this: BotContext): Promise<void> {
@@ -47,12 +50,16 @@ async function processOne(this: BotContext): Promise<void> {
                     if (payload && timeout) {
                         if (queue[postId] === undefined) {
                             queue[postId] = payload;
+                            dbg('will retry editMessageReplyMarkup for post %d in %d seconds', +postId, timeout);
                             setTimeout(processOne.bind(this), timeout * 1000);
+                        } else {
+                            dbg('not queueing additional editMessageReplyMarkup for post %d', +postId);
                         }
 
                         return;
                     }
                 } else if ((e as any).code === 400) {
+                    dbg('Skipping error 400 from editMessageReplyMarkup');
                     return;
                 }
             }

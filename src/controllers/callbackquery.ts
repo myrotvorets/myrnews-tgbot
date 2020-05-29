@@ -1,4 +1,5 @@
 import Bugsnag from '@bugsnag/js';
+import debug from 'debug';
 import { react } from '../lib/db';
 import { BotContext, Reaction } from '../types/index';
 import { editMessageReplyMarkup } from '../lib/telegram';
@@ -10,9 +11,12 @@ declare module 'telegram-typings' {
     }
 }
 
+const error = debug('bot:error');
+const warn = debug('bot:warn');
+
 export async function queryCallbackHandler(context: BotContext): Promise<void> {
     if (!context.callbackQuery || !context.callbackQuery.data || !context.callbackQuery.data.match(/^[LHSB]:\d+$/)) {
-        console.warn('Bad input');
+        warn('Bad input');
         return;
     }
 
@@ -26,5 +30,6 @@ export async function queryCallbackHandler(context: BotContext): Promise<void> {
         editMessageReplyMarkup(context, pid);
     } catch (e) {
         Bugsnag.notify(e);
+        error(e);
     }
 }
