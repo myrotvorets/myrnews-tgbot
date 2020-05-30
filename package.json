@@ -38,7 +38,9 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
     "jest": "^26.0.1",
+    "lint-staged": "^10.2.7",
     "merge": "^1.2.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
@@ -47,5 +49,13 @@
     "ts-jest": "^26.0.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.9.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": "eslint --no-eslintrc -c .eslintrc.json --fix"
   }
 }
