@@ -5,13 +5,14 @@
   "description": "Myrotvorets.news Telegram Bot",
   "scripts": {
     "build": "tsc",
-    "start": "env-cmd node ./dist/index.js",
-    "prenodemon": "mkdir -p /var/lib/bot || true; knex migrate:latest --knexfile ./src/knexfile.ts",
-    "nodemon": "nodemon",
-    "test": "jest",
     "build:image": "docker build -t myrnews-bot:latest . && docker image save myrnews-bot:latest > image.tar",
     "lint": "eslint --no-eslintrc -c .eslintrc.json .",
     "lint:fix": "eslint --no-eslintrc -c .eslintrc.json --fix .",
+    "prenodemon": "mkdir -p /var/lib/bot || true; knex migrate:latest --knexfile ./src/knexfile.ts",
+    "nodemon": "nodemon",
+    "start": "env-cmd node ./dist/index.js",
+    "test": "jest",
+    "typecheck": "tsc --noEmit --skipLibCheck",
     "preversion": "npm run build && npm test"
   },
   "main": "./dist/index.js",
@@ -22,14 +23,14 @@
     "@types/debug": "^4.1.5",
     "axios": "^0.19.2",
     "debug": "^4.1.1",
-    "envalid": "^6.0.1",
+    "envalid": "^6.0.2",
     "knex": "^0.21.1",
     "mysql": "^2.18.1",
     "telegraf": "^3.38.0"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",
-    "@types/node": "^14.0.5",
+    "@types/node": "^14.0.6",
     "@types/sqlite3": "^3.1.6",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
@@ -47,7 +48,7 @@
     "sqlite3": "^4.2.0",
     "telegram-typings": "^3.6.1",
     "ts-jest": "^26.0.0",
-    "ts-node": "^8.10.1",
+    "ts-node": "^8.10.2",
     "typescript": "^3.9.3"
   },
   "husky": {
