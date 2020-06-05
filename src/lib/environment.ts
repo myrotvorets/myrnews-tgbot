@@ -1,6 +1,3 @@
-import fs from 'fs';
-import { dirname, join } from 'path';
-import { promisify } from 'util';
 import { cleanEnv, host, num, str, url } from 'envalid';
 import { portOrZero } from './validators';
 
@@ -18,19 +15,6 @@ export interface Environment {
 }
 
 let env: Environment | undefined;
-
-const exists = promisify(fs.exists);
-export async function findEnv(basePath?: string): Promise<string | null> {
-    const mainDir = basePath || dirname(require.main?.filename || __filename);
-    const locations = [join(mainDir, '.env'), join(mainDir, '..', '.env')];
-    for (const location of locations) {
-        if (await exists(location)) {
-            return location;
-        }
-    }
-
-    return null;
-}
 
 export function getEnvironment(): Environment {
     if (!env) {
