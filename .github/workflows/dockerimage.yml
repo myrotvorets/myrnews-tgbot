@@ -13,5 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: touch production.env
+    - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag myrnews-tgbot:$(date +%s)

@@ -3,12 +3,12 @@ RUN apk add --no-cache nodejs npm
 
 FROM node AS deps
 WORKDIR /srv/bot
-COPY ./package.json /srv/bot
+COPY ./package.json .npmrc /srv/bot/
 RUN npm install --only=prod --no-audit --no-fund && npm dedup && npm ls --depth=0
 
 FROM node AS build-deps
 WORKDIR /usr/src/bot
-COPY ./package.json /usr/src/bot/
+COPY ./package.json .npmrc /usr/src/bot/
 RUN npm install --no-audit --no-fund
 
 FROM build-deps AS build

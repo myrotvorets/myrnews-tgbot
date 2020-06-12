@@ -5,7 +5,9 @@
   "description": "Myrotvorets.news Telegram Bot",
   "scripts": {
     "build": "tsc",
+    "prebuild:image": "[ -x ./pre-build-image.sh ] && ./pre-build-image.sh",
     "build:image": "docker build -t myrnews-bot:latest . && docker image save myrnews-bot:latest > image.tar",
+    "postbuild:image": "[ -x ./post-build-image.sh ] && ./post-build-image.sh",
     "lint": "eslint --no-eslintrc -c .eslintrc.json .",
     "lint:fix": "eslint --no-eslintrc -c .eslintrc.json --fix .",
     "prenodemon": "mkdir -p /var/lib/bot || true; knex migrate:latest --knexfile ./src/knexfile.ts",
@@ -20,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@bugsnag/js": "^7.1.1",
-    "@types/debug": "^4.1.5",
+    "@myrotvorets/envalidators": "^1.0.1",
     "axios": "^0.19.2",
     "debug": "^4.1.1",
     "envalid": "^6.0.2",
@@ -29,6 +31,7 @@
     "telegraf": "^3.38.0"
   },
   "devDependencies": {
+    "@types/debug": "^4.1.5",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.0.13",
     "@types/sqlite3": "^3.1.6",
@@ -41,7 +44,7 @@
     "eslint-plugin-prettier": "^3.1.3",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
-    "lint-staged": "^10.2.9",
+    "lint-staged": "^10.2.10",
     "merge": "^1.2.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",

@@ -1,5 +1,5 @@
 import { cleanEnv, host, num, str, url } from 'envalid';
-import { portOrZero } from './validators';
+import { portOrZero } from '@myrotvorets/envalidators';
 
 export interface Environment {
     NODE_ENV: string;
