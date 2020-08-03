@@ -20,5 +20,11 @@ export async function getPosts(baseUrl: string): Promise<PostData[]> {
 
 export async function getFeaturedImageUrl(baseUrl: string, id: number): Promise<string> {
     const media = await axios.get(`${baseUrl}/wp-json/wp/v2/media/${id}`);
-    return media.data.guid.rendered;
+    const link = media.data.guid.rendered;
+    try {
+        const url = new URL(link);
+        return url.href;
+    } catch (e) {
+        return '';
+    }
 }
