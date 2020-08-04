@@ -1,4 +1,4 @@
-FROM alpine:latest AS node
+FROM alpine:3.12 AS node
 RUN apk add --no-cache nodejs npm
 
 FROM node AS deps
