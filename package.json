@@ -22,11 +22,11 @@
   "license": "MIT",
   "dependencies": {
     "@bugsnag/js": "^7.2.1",
-    "@myrotvorets/envalidators": "^1.1.10",
+    "@myrotvorets/envalidators": "^1.1.11",
     "axios": "^0.19.2",
     "debug": "^4.1.1",
     "envalid": "^6.0.2",
-    "knex": "^0.21.2",
+    "knex": "^0.21.3",
     "mysql": "^2.18.1",
     "telegraf": "^3.38.0"
   },
