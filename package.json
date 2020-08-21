@@ -23,7 +23,7 @@
   "dependencies": {
     "@bugsnag/js": "^7.3.0",
     "@myrotvorets/envalidators": "^1.1.17",
-    "axios": "^0.19.2",
+    "axios": "^0.20.0",
     "debug": "^4.1.1",
     "envalid": "^6.0.2",
     "knex": "^0.21.5",
