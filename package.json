@@ -5,17 +5,14 @@
   "description": "Myrotvorets.news Telegram Bot",
   "scripts": {
     "build": "tsc",
-    "prebuild:image": "[ -x ./pre-build-image.sh ] && ./pre-build-image.sh",
-    "build:image": "docker build -t myrnews-bot:latest . && docker image save myrnews-bot:latest > image.tar",
-    "postbuild:image": "[ -x ./post-build-image.sh ] && ./post-build-image.sh",
-    "lint": "eslint --no-eslintrc -c .eslintrc.json .",
-    "lint:fix": "eslint --no-eslintrc -c .eslintrc.json --fix .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "prenodemon": "mkdir -p /var/lib/bot || true; knex migrate:latest --knexfile ./src/knexfile.ts",
     "nodemon": "nodemon",
-    "start": "env-cmd node ./dist/index.js",
+    "start": "node ./dist/index.js",
     "test": "jest",
     "typecheck": "tsc --noEmit --skipLibCheck",
-    "preversion": "npm run build && npm test"
+    "preversion": "npm run lint && npm run build && npm test"
   },
   "main": "./dist/index.js",
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
@@ -33,11 +30,10 @@
   "devDependencies": {
     "@types/debug": "^4.1.5",
     "@types/jest": "^26.0.13",
-    "@types/node": "^14.10.1",
+    "@types/node": "^14.10.2",
     "@types/sqlite3": "^3.1.6",
     "@typescript-eslint/eslint-plugin": "^4.1.1",
     "@typescript-eslint/parser": "^4.1.1",
-    "env-cmd": "^10.1.0",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
@@ -59,6 +55,6 @@
     }
   },
   "lint-staged": {
-    "*.ts": "eslint --no-eslintrc -c .eslintrc.json --fix"
+    "*.ts": "eslint --fix"
   }
 }

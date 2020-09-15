@@ -1,7 +1,7 @@
 import path from 'path';
 import knex from 'knex';
 // eslint-disable-next-line import/named
-import { buildKnexConfig } from '../knexfile';
+import { buildKnexConfig } from '../src/knexfile';
 
 const db = knex(buildKnexConfig());
 
