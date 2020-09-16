@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { getFeaturedImageResponse } from './fixtures/featuredimage';
-import { getFeaturedImageUrl, getPosts } from '../lib/wpapi';
+import { getFeaturedImageUrl, getPosts } from '../src/lib/wpapi';
 import { getPostsResponse } from './fixtures/posts';
-import { PostData } from '../types/index';
+import type { PostData } from '../src/types';
 
 jest.mock('axios');
 

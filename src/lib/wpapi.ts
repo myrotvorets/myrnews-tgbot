@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PostData } from '../types/index';
+import type { PostData } from '../types';
 
 export async function getPosts(baseUrl: string): Promise<PostData[]> {
     const result: PostData[] = [];

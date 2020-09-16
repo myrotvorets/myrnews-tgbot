@@ -7,7 +7,7 @@ import { addPost, checkPostExists } from '../lib/db';
 import { Environment } from '../lib/environment';
 import { buildInlineKeyboardFromPost, generateDescription } from '../lib/utils';
 import { getFeaturedImageUrl, getPosts } from '../lib/wpapi';
-import { BotContext, PostData } from '../types';
+import type { BotContext, PostData } from '../types';
 
 const error = debug('bot:error');
 const dbg = debug('bot:debug');

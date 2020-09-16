@@ -1,6 +1,6 @@
 import { InlineKeyboardMarkup } from 'telegram-typings';
-import { buildInlineKeyboardFromMarkup, buildInlineKeyboardFromPost, generateDescription } from '../lib/utils';
-import { PostData, UserReactionStats } from '../types';
+import { buildInlineKeyboardFromMarkup, buildInlineKeyboardFromPost, generateDescription } from '../src/lib/utils';
+import type { PostData, UserReactionStats } from '../src/types';
 
 describe('buildInlineKeyboardFromPost()', (): void => {
     const post = {

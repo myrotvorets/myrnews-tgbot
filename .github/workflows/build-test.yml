@@ -9,25 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2.3.2
-
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v2.1.1
-      with:
-        node-version: 12
-
-    - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build
-      run: npm run build
-
-  test:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         node_version: ['12', '14']
@@ -39,8 +20,12 @@ jobs:
       uses: actions/setup-node@v2.1.1
       with:
         node-version: ${{ matrix.node_version }}
-
-    - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+        registry-url: https://npm.pkg.github.com
 
     - name: Install dependencies and run tests
       run: npm cit
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Build
+      run: npm run build

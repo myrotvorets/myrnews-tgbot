@@ -1,7 +1,7 @@
 import Bugsnag from '@bugsnag/js';
 import debug from 'debug';
 import { react } from '../lib/db';
-import { BotContext, Reaction } from '../types/index';
+import type { BotContext, Reaction } from '../types';
 import { editMessageReplyMarkup } from '../lib/telegram';
 
 // ! Typings are incorrect, they miss `reply_markup` field in `Message`

@@ -1,9 +1,6 @@
 *
 !src
-!nodemon.json
 !package.json
 !package-lock.json
 !tsconfig.json
-!.env
 !.npmrc
-!production.env
