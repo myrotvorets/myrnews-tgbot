@@ -18,7 +18,7 @@ const db = knex(buildKnexConfig());
 beforeAll(
     (): Promise<unknown> =>
         db.migrate
-            .latest({ directory: path.join(__dirname, '..', 'migrations') })
+            .latest({ directory: path.join(__dirname, '..', 'src', 'migrations') })
             .then((): Promise<unknown> => db.seed.run({ directory: path.join(__dirname, 'seeds') })),
 );
 
