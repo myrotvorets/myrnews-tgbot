@@ -21,7 +21,7 @@
     "@bugsnag/js": "^7.3.5",
     "@myrotvorets/envalidators": "^1.1.19",
     "axios": "^0.20.0",
-    "debug": "^4.1.1",
+    "debug": "^4.2.0",
     "envalid": "^6.0.2",
     "knex": "^0.21.5",
     "mysql": "^2.18.1",
