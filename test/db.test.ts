@@ -38,7 +38,7 @@ describe('addPost()', (): void => {
         ).resolves.not.toBeUndefined();
     });
 
-    afterEach(async (): Promise<unknown> => await trx.rollback());
+    afterEach((): Promise<unknown> => trx.rollback());
 });
 
 describe('checkPostExists()', (): void => {
@@ -90,7 +90,7 @@ describe('deleteReaction()', (): void => {
         ).resolves.toBeUndefined();
     });
 
-    afterEach(async (): Promise<unknown> => await trx.rollback());
+    afterEach((): Promise<unknown> => trx.rollback());
 });
 
 describe('addReaction()', (): void => {
@@ -116,7 +116,7 @@ describe('addReaction()', (): void => {
         });
     });
 
-    afterEach(async (): Promise<unknown> => await trx.rollback());
+    afterEach((): Promise<unknown> => trx.rollback());
 });
 
 describe('react()', (): void => {
@@ -188,7 +188,7 @@ describe('react()', (): void => {
         },
     );
 
-    afterEach(async (): Promise<unknown> => await trx.rollback());
+    afterEach((): Promise<unknown> => trx.rollback());
 });
 
 describe('getPostStats()', (): void => {

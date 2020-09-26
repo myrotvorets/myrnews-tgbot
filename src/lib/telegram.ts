@@ -1,5 +1,5 @@
+/* eslint-disable no-invalid-this */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import type { InlineKeyboardMarkup } from 'telegram-typings';
 import debug from 'debug';
 import Bugsnag from '@bugsnag/js';
@@ -21,6 +21,16 @@ const dbg = debug('bot:debug');
 function notify(e: Error): void {
     Bugsnag.notify(e);
     error(e);
+}
+
+interface TelegramError extends Error {
+    code: number;
+    parameters?: {
+        retry_after: number;
+    };
+    on?: {
+        payload: unknown;
+    };
 }
 
 function processOne(this: BotContext): void {
@@ -49,9 +59,9 @@ function processOne(this: BotContext): void {
                 .then((): unknown => setImmediate(processOne.bind(this)))
                 .catch((e: Error): void => {
                     if (e.constructor.name === 'TelegramError') {
-                        if ((e as any).code === 429) {
-                            const payload = (e as any).on?.payload as QueuedItem | undefined;
-                            const timeout = (e as any).parameters?.retry_after as number | undefined;
+                        if ((e as TelegramError).code === 429) {
+                            const payload = (e as TelegramError).on?.payload as QueuedItem | undefined;
+                            const timeout = (e as TelegramError).parameters?.retry_after;
 
                             if (payload && timeout) {
                                 if (queue[postId] === undefined) {
@@ -62,7 +72,7 @@ function processOne(this: BotContext): void {
                                 setTimeout(processOne.bind(this), timeout * 1000);
                                 return;
                             }
-                        } else if ((e as any).code === 400) {
+                        } else if ((e as TelegramError).code === 400) {
                             dbg('Skipping error 400 from editMessageReplyMarkup: %o', e);
                             setImmediate(processOne.bind(this));
                             return;

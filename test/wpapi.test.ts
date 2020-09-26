@@ -8,8 +8,8 @@ jest.mock('axios');
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-describe('getPosts', (): void => {
-    it('should properly extract data', async (): Promise<unknown> => {
+describe('getPosts', () => {
+    it('should properly extract data', () => {
         mockedAxios.get.mockResolvedValue({ data: getPostsResponse });
 
         const expected: PostData[] = [
@@ -33,8 +33,8 @@ describe('getPosts', (): void => {
     });
 });
 
-describe('getFeaturedImageURL', (): void => {
-    it('should return image URL', async (): Promise<unknown> => {
+describe('getFeaturedImageURL', () => {
+    it('should return image URL', () => {
         mockedAxios.get.mockResolvedValue({ data: getFeaturedImageResponse });
 
         return expect(getFeaturedImageUrl('https://example.test', 43762)).resolves.toBe(

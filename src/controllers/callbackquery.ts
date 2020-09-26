@@ -15,7 +15,7 @@ const error = debug('bot:error');
 const warn = debug('bot:warn');
 
 export async function queryCallbackHandler(context: BotContext): Promise<void> {
-    if (!context.callbackQuery || !context.callbackQuery.data || !context.callbackQuery.data.match(/^[LHSB]:\d+$/)) {
+    if (!context.callbackQuery || !context.callbackQuery.data || !/^[LHSB]:\d+$/u.exec(context.callbackQuery.data)) {
         warn('Bad input');
         return;
     }

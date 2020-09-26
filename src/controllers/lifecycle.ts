@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import Bugsnag from '@bugsnag/js';
 import debug from 'debug';
 import knex from 'knex';
@@ -51,7 +52,7 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
     }
 }
 
-export function lifecycle(env: Environment, bot: Telegraf<BotContext>): void {
+export async function lifecycle(env: Environment, bot: Telegraf<BotContext>): Promise<void> {
     const inner = async function (): Promise<void> {
         try {
             const posts = await getNewPosts(env.NEWS_ENDPOINT, bot.context.db);
@@ -64,8 +65,9 @@ export function lifecycle(env: Environment, bot: Telegraf<BotContext>): void {
             error(e);
         }
 
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         setTimeout(inner, env.FETCH_INTERVAL);
     };
 
-    inner();
+    await inner();
 }

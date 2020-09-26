@@ -6,6 +6,11 @@ import path from 'path';
 import { promisify } from 'util';
 import { Environment } from './environment';
 
+interface PackageJson {
+    name: string;
+    version: string;
+}
+
 /**
  * Strictly speaking, this function is not needed.
  * However, we leave it in case in future we may need to filter out some data etc.
@@ -27,7 +32,7 @@ export async function startBugsnag(env: Environment): Promise<void> {
     } else {
         const json = JSON.parse(
             await readFile(path.join(path.dirname(require.main?.filename || __dirname), 'package.json'), 'utf-8'),
-        );
+        ) as PackageJson;
 
         version = json.version;
     }

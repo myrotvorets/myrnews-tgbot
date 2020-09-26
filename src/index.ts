@@ -35,10 +35,10 @@ import { startBugsnag } from './lib/bugsnag';
             await bot.launch();
         }
 
-        lifecycle(env, bot);
+        await lifecycle(env, bot);
     } catch (e) {
         Bugsnag.notify(e);
         console.error(e);
         process.exit(1);
     }
-})();
+})().catch((e) => console.error(e));

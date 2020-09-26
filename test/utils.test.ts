@@ -159,7 +159,7 @@ describe('generateDescription', (): void => {
     it('should skip long links', (): void => {
         const data: PostData = {
             id: 1,
-            link: 'https://example.test/?p=' + '1'.repeat(1000),
+            link: `https://example.test/?p=${'1'.repeat(1000)}`,
             title: 'Title',
             excerpt: 'Excerpt goes here',
         };
@@ -172,12 +172,12 @@ describe('generateDescription', (): void => {
     it('should skip long links and trim long excerpts', (): void => {
         const data: PostData = {
             id: 1,
-            link: 'https://example.test/?p=' + '1'.repeat(1000),
+            link: `https://example.test/?p=${'1'.repeat(1000)}`,
             title: 'Title',
             excerpt: 'A'.repeat(2000),
         };
 
-        const expected = data.excerpt.slice(0, 1000) + '…';
+        const expected = `${data.excerpt.slice(0, 1000)}…`;
         const actual = generateDescription(data);
         expect(actual).toEqual(expected);
     });
@@ -185,7 +185,7 @@ describe('generateDescription', (): void => {
     it('should skip excerpt for long titles', (): void => {
         const data: PostData = {
             id: 1,
-            link: 'https://example.test/?p=' + '1'.repeat(900),
+            link: `https://example.test/?p=${'1'.repeat(900)}`,
             title: 'Title',
             excerpt: 'Excerpt goes here',
         };
