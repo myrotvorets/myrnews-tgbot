@@ -18,6 +18,7 @@ const env = cleanEnv(
 );
 
 export function buildKnexConfig(): Config {
+    // eslint-disable-next-line sonarjs/no-small-switch
     switch (env.KNEX_DRIVER) {
         case 'sqlite3':
             return {
