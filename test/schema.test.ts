@@ -6,6 +6,16 @@ import { buildKnexConfig } from '../src/knexfile';
 const db = knex(buildKnexConfig());
 
 beforeAll((): Promise<unknown> => db.migrate.latest({ directory: path.join(__dirname, '..', 'src', 'migrations') }));
+afterAll((done) =>
+    db
+        .destroy()
+        .then(() => {
+            done();
+        })
+        .catch((e) => {
+            done.fail(e);
+        }),
+);
 
 describe('Database schema', (): void => {
     beforeEach((): Promise<unknown> => db.seed.run({ directory: path.join(__dirname, 'seeds') }));
