@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2.3.3
+    - uses: actions/checkout@v2.3.4
     - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag myrotvorets/myrnews-tgbot:latest --pull
