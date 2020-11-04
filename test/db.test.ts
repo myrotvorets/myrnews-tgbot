@@ -22,16 +22,7 @@ beforeAll(
             .then((): Promise<unknown> => db.seed.run({ directory: path.join(__dirname, 'seeds') })),
 );
 
-afterAll((done) =>
-    db
-        .destroy()
-        .then(() => {
-            done();
-        })
-        .catch((e) => {
-            done.fail(e);
-        }),
-);
+afterAll(() => db.destroy());
 
 describe('addPost()', (): void => {
     let trx: knex.Transaction;
