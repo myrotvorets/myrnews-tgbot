@@ -44,7 +44,7 @@
     "lint-staged": "^10.5.1",
     "merge": "^2.1.0",
     "nodemon": "^2.0.5",
-    "prettier": "^2.1.2",
+    "prettier": "^2.2.0",
     "sqlite3": "^5.0.0",
     "telegram-typings": "^3.6.1",
     "ts-jest": "^26.4.4",
