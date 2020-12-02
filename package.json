@@ -18,7 +18,7 @@
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
   "license": "MIT",
   "dependencies": {
-    "@bugsnag/js": "^7.5.1",
+    "@bugsnag/js": "^7.5.3",
     "@myrotvorets/envalidators": "^1.2.1",
     "axios": "^0.21.0",
     "debug": "^4.3.1",
