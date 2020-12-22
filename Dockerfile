@@ -22,5 +22,6 @@ USER nobody:nobody
 WORKDIR /srv/bot
 COPY --from=deps /srv/bot/node_modules ./node_modules
 COPY --from=build /srv/bot/dist/ ./
+COPY ./package.json ./
 ENTRYPOINT ["/usr/bin/node", "index.js"]
 EXPOSE 3010
