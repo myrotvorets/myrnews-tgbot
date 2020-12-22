@@ -1,9 +1,9 @@
 FROM myrotvorets/node-build AS base
 USER root
-RUN install -m 0700 -o nobody -g nogroup -d /srv/bot
-USER nobody:nogroup
+RUN install -m 0700 -o nobody -g nobody -d /srv/bot
+USER nobody:nobody
 WORKDIR /srv/bot
-COPY ./package.json ./package-lock.json .npmrc ./
+COPY ./package.json ./package-lock.json ./
 
 FROM base AS deps
 RUN npm ci --only=prod --no-audit --no-fund
@@ -17,8 +17,8 @@ RUN npm run build
 
 FROM myrotvorets/node-min
 USER root
-RUN install -m 0700 -o nobody -g nogroup -d /srv/bot /srv/bot/node_modules
-USER nobody:nogroup
+RUN install -m 0700 -o nobody -g nobody -d /srv/bot /srv/bot/node_modules
+USER nobody:nobody
 WORKDIR /srv/bot
 COPY --from=deps /srv/bot/node_modules ./node_modules
 COPY --from=build /srv/bot/dist/ ./
