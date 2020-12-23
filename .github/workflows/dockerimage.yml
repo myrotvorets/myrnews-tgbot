@@ -1,14 +1,21 @@
-name: Docker Image CI
+name: Deployment
 
 on:
   push:
     branches: 
+      - master
+    tags:
+      - "*.*.*"
+  pull_request:
+    branches:
       - master
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      image_version: ${{ steps.docker_meta.outputs.version }}
 
     steps:
       - name: Checkout
@@ -16,9 +23,21 @@ jobs:
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           username: ${{ secrets.DOCKER_LOGIN }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1.9.1
+        with:
+          images: myrotvorets/myrnews-tgbot
+          tag-edge: true
+          tag-semver: |
+            {{version}}
+            {{major}}
+            {{major}}.{{minor}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -34,21 +53,16 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          push: true
-          tags: myrotvorets/myrnews-tgbot:latest
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           context: .
           file: ./Dockerfile
-          labels: |
-            org.opencontainers.image.title=${{ github.event.repository.name }}
-            org.opencontainers.image.description=${{ github.event.repository.description }}
-            org.opencontainers.image.url=${{ github.event.repository.html_url }}
-            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
 
   deploy:
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') || github.event == 'workflow_dispatch' }}
     needs: build
     runs-on: ubuntu-latest
 
@@ -61,19 +75,45 @@ jobs:
         env:
           SECRET_ENVIRONMENT: ${{ secrets.SECRET_ENVIRONMENT }}
 
-      - name: Update configuration
+      - name: Create patch-image-version.yaml
+        run: cat iac/patch-image-version.yaml.in | envsubst > iac/patch-image-version.yaml
+        env:
+          IMAGE_VERSION: ${{ jobs.build.outputs.image_version }}
+
+      - name: Patch kustomization.yaml
+        run: |
+          echo -e "\npatchesStrategicMerge:\n  - 'patch-image-version.yaml'" >> iac/kustomization.yaml
+
+      - name: Start deployment
+        uses: chrnorm/deployment-action@v1.2.0
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          environment: production
+
+      - name: Deploy
         uses: myrotvorets/kubectl-action@1.0.4
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
           args: apply -k iac/
 
-      - name: Cleanup
-        run: rm -f ./iac/.env
-
-      - name: Trigger deployment
-        uses: myrotvorets/kubectl-action@1.0.4
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@v1.0.0
         with:
-          args: rollout restart deployment myrnews-bot -n bots
+          token: "${{ github.token }}"
+          state: "success"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@v1.0.0
+        with:
+          token: "${{ github.token }}"
+          state: "failure"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Cleanup
+        if: always()
+        run: rm -f ./iac/.env
