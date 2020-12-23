@@ -78,7 +78,7 @@ jobs:
       - name: Create patch-image-version.yaml
         run: cat iac/patch-image-version.yaml.in | envsubst > iac/patch-image-version.yaml
         env:
-          IMAGE_VERSION: ${{ jobs.build.outputs.image_version }}
+          IMAGE_VERSION: ${{ needs.build.outputs.image_version }}
 
       - name: Patch kustomization.yaml
         run: |
