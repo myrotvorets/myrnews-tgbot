@@ -70,19 +70,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Create .env
-        run: echo "$SECRET_ENVIRONMENT" | base64 -d > ./iac/.env
-        env:
-          SECRET_ENVIRONMENT: ${{ secrets.SECRET_ENVIRONMENT }}
-
-      - name: Create patch-image-version.yaml
-        run: cat iac/patch-image-version.yaml.in | envsubst > iac/patch-image-version.yaml
-        env:
-          IMAGE_VERSION: ${{ needs.build.outputs.image_version }}
-
-      - name: Patch kustomization.yaml
-        run: |
-          echo -e "\npatchesStrategicMerge:\n  - 'patch-image-version.yaml'" >> iac/kustomization.yaml
+      - name: Prepare the files
+        uses: ./.github/actions/prepare-deployment
+        with:
+          image_version: ${{ needs.build.outputs.image_version }}
+          secret_environment: ${{ secrets.SECRET_ENVIRONMENT }}
 
       - name: Start deployment
         uses: chrnorm/deployment-action@v1.2.0
