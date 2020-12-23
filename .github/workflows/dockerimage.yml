@@ -62,7 +62,7 @@ jobs:
           SECRET_ENVIRONMENT: ${{ secrets.SECRET_ENVIRONMENT }}
 
       - name: Update configuration
-        uses: myrotvorets/kubectl-action@1.0.2
+        uses: myrotvorets/kubectl-action@1.0.3
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
@@ -72,7 +72,7 @@ jobs:
         run: rm -f ./iac/.env
 
       - name: Trigger deployment
-        uses: myrotvorets/kubectl-action@1.0.2
+        uses: myrotvorets/kubectl-action@1.0.3
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
