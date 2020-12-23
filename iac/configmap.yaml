@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myrnews-bot-configmap
+  namespace: bots
+data:
+  CHAT_ID: "-1001454569993"
+  KNEX_DRIVER: mysql
+  LISTEN_HOST: "0.0.0.0"
+  NEWS_ENDPOINT: https://myrotvorets.news
+  NODE_ENV: production
+  PATH_PREFIX: psbnews
+  WEBHOOK_DOMAIN: tgbots.myrotvorets.center
+  WEBHOOK_PORT: "3010"
