@@ -4,73 +4,43 @@ on:
   repository_dispatch:
     types:
       - tests-passed
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: Docker image tag
-        default: edge
-        required: true
 
 env:
   IMAGE_NAME: myrotvorets/myrnews-tgbot
+  EVENT: ${{ github.event.client_payload.event_name }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      refkind: ${{ steps.kind.outputs.kind }}
+      reference: ${{ github.event.client_payload.ref }}
+      commit: ${{ github.event.client_payload.sha }}
+
     steps:
+      - name: Set image creation timestamp
+        run: echo TIMESTAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v2.3.4
-
-      - name: Normalize inputs
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            IMAGE_TAGS="${{ env.IMAGE_NAME }}:${{ github.event.inputs.tag }}"
-            IMAGE_VERSION="${{ github.event.inputs.tag }}"
-            COMMIT_HASH="${{ github.sha }}"
-            REFERENCE="${{ github.ref }}"
-            EVENT=push
-            REFKIND="branch"
-          else
-            IMAGE_TAGS=""
-            IMAGE_VERSION=""
-            COMMIT_HASH=${{ github.event.client_payload.sha }}
-            REFERENCE="${{ github.event.client_payload.ref }}"
-            EVENT="${{ github.event.client_payload.event_name }}"
-            REFKIND=""
-          fi
-
-          echo IMAGE_TAGS="${IMAGE_TAGS}" >> $GITHUB_ENV
-          echo IMAGE_VERSION="${IMAGE_VERSION}" >> $GITHUB_ENV
-          echo COMMIT_HASH="${COMMIT_HASH}" >> $GITHUB_ENV
-          echo REFERENCE="${REFERENCE}" >> $GITHUB_ENV
-          echo EVENT="${EVENT}" >> $GITHUB_ENV
-          echo REFKIND="${REFKIND}" >> $GITHUB_ENV
-          echo TIMESTAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+        with:
+          ref: ${{ github.event.client_payload.sha }}
 
       - name: Analyze commit info
-        if: ${{ !env.IMAGE_TAGS }}
         id: kind
         uses: myrotvorets/composite-actions/refkind@master
         with:
-          ref: ${{ env.REFERENCE }}
+          ref: ${{ github.event.client_payload.ref }}
 
       - name: Determine Docker tags
-        if: ${{ !env.IMAGE_TAGS }}
         id: meta
         uses: myrotvorets/composite-actions/docker-tags@master
         with:
           refkind: ${{ steps.kind.outputs.kind }}
           refname: ${{ steps.kind.outputs.name }}
-          commit_hash: ${{ env.COMMIT_HASH }}
+          commit_hash: ${{ github.event.client_payload.sha }}
           image_name: ${{ env.IMAGE_NAME }}
           default_branch: ${{ github.event.repository.default_branch }}
-
-      - name: Update environment
-        if: ${{ !env.IMAGE_TAGS }}
-        run: |
-          echo IMAGE_TAGS="${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
-          echo IMAGE_VERSION="${{ steps.meta.outputs.version }}" >> $GITHUB_ENV
-          echo REFKIND="${{ steps.kind.outputs.kind }}" >> $GITHUB_ENV
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -86,13 +56,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          key: ${{ runner.os }}-buildx-${{ github.event.client_payload.sha }}
 
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: ${{ env.EVENT != 'pull_request' }}
-          tags: ${{ env.IMAGE_TAGS }}
+          tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           context: .
@@ -102,38 +72,38 @@ jobs:
             org.opencontainers.image.description=${{ github.event.repository.description }}
             org.opencontainers.image.url=${{ github.event.repository.html_url }}
             org.opencontainers.image.source=${{ github.event.repository.clone_url }}
-            org.opencontainers.image.version=${{ env.IMAGE_VERSION }}
+            org.opencontainers.image.version=${{ steps.meta.outputs.version }}
             org.opencontainers.image.created=${{ env.TIMESTAMP }}
-            org.opencontainers.image.revision=${{ env.COMMIT_HASH }}
+            org.opencontainers.image.revision=${{ github.event.client_payload.sha }}
             org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
 
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ needs.build.outputs.refkind == 'tag' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+        with:
+          ref: ${{ needs.build.outputs.commit }}
+
       - name: Fetch tags
-        if: ${{ github.event_name == 'repository_dispatch' && env.REFKIND == 'tag' }}
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
       - name: Get release description
-        if: ${{ github.event_name == 'repository_dispatch' && env.REFKIND == 'tag' }}
         id: release_params
         run: |
-          SUBJECT="$(git for-each-ref "${{ env.REFERENCE }}" --format="%(contents:subject)")"
-          BODY="$(git for-each-ref "${{ env.REFERENCE }}" --format="%(contents:body)")"
+          SUBJECT="$(git for-each-ref "${{ needs.build.outputs.reference }}" --format="%(contents:subject)")"
+          BODY="$(git for-each-ref "${{ needs.build.outputs.reference }}" --format="%(contents:body)")"
           echo "::set-output name=subject::${SUBJECT}"
           echo "::set-output name=body::${BODY}"
 
       - name: Create a release
-        if: ${{ github.event_name == 'repository_dispatch' && env.REFKIND == 'tag' }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
         with:
-          tag_name: ${{ env.REFERENCE }}
+          tag_name: ${{ needs.build.outputs.reference }}
           release_name: ${{ steps.release_params.subject }}
           body: ${{ steps.release_params.body }}
-
-      - name: Trigger deployment
-        if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: myrotvorets/trigger-repository-dispatch-action@1.0.0
-        with:
-          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
-          type: image-pushed
-          payload: '{ "sha": "${{ env.COMMIT_HASH }}", "version": "${{ env.IMAGE_VERSION }}" }'
