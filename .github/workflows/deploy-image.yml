@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: Normalize inputs
         run: |
-          if [ "${{ github.event_name" = "workflow_dispatch" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             IMAGE_VERSION="${{ github.event.inputs.tag }}"
             COMMIT_HASH="${{ github.sha }}"
           elif [ "${{ github.event_name" = "repository_dispatch" ]; then
