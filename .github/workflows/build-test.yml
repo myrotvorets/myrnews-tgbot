@@ -1,28 +1,44 @@
-name: CI
+name: Build and Test
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - "*"
+    tags:
+      - "*"
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: ['12', '14']
+        node_version: ['14']
 
     steps:
-    - uses: actions/checkout@v2.3.4
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
 
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v2.1.4
-      with:
-        node-version: ${{ matrix.node_version }}
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: ${{ matrix.node_version }}
 
-    - name: Install dependencies and run tests
-      run: npm cit
+      - name: Install dependencies and run tests
+        run: npm cit
 
-    - name: Build
-      run: npm run build
+      - name: Analyze commit info
+        id: kind
+        uses: myrotvorets/composite-actions/refkind@master
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Trigger Docker build
+        uses: myrotvorets/trigger-repository-dispatch-action@1.0.0
+        with:
+          token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          type: tests-passed
+          payload: '{ "ref": "${{ github.ref }}", "sha": "${{ github.sha }}", "event_name": "${{ github.event_name }}" }'

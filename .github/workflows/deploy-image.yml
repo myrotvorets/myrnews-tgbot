@@ -1,36 +1,55 @@
-name: Manual Deployment
+name: Deployment
 
 on:
+  repository_dispatch:
+    types:
+      - image-pushed
   workflow_dispatch:
     inputs:
       tag:
-        description: Docker Image Tag
         default: edge
         required: true
+        description: Docker image tag
+  release:
+    types:
+      - released
+
+env:
+  IMAGE_NAME: myrotvorets/myrnews-tgbot
 
 jobs:
-  sanity-check:
+  deploy:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check if the image exists
-        run: docker pull "myrotvorets/myrnews-tgbot:${IMAGE_TAG}"
-        env:
-          IMAGE_TAG: ${{ github.event.inputs.tag }}
+      - name: Normalize inputs
+        run: |
+          if [ "${{ github.event_name" = "workflow_dispatch" ]; then
+            IMAGE_VERSION="${{ github.event.inputs.tag }}"
+            COMMIT_HASH="${{ github.sha }}"
+          elif [ "${{ github.event_name" = "repository_dispatch" ]; then
+            IMAGE_VERSION="${{ github.event.client_payload.version }}"
+            COMMIT_HASH="${{ github.event.client_payload.sha }}"
+          else
+            IMAGE_VERSION="${{ github.event.release.tag_name }}"
+            COMMIT_HASH="${{ github.event.release.tag_name }}"
+          fi
 
-  manual-deploy:
-    runs-on: ubuntu-latest
-    needs: sanity-check
+          echo IMAGE_VERSION="${IMAGE_VERSION}" >> $GITHUB_ENV
+          echo COMMIT_HASH="${COMMIT_HASH}" >> $GITHUB_ENV
 
-    steps:
       - name: Checkout
         uses: actions/checkout@v2.3.4
+        with:
+          ref: ${{ env.COMMIT_HASH }}
 
       - name: Prepare the files
-        uses: ./.github/actions/prepare-deployment
+        uses: myrotvorets/composite-actions/prepare-k8s-deployment@master
         with:
-          image_version: ${{ github.event.inputs.tag }}
+          image_version: ${{ env.IMAGE_VERSION }}
           secret_environment: ${{ secrets.SECRET_ENVIRONMENT }}
+          path: iac
 
       - name: Start deployment
         uses: chrnorm/deployment-action@v1.2.0

@@ -10,9 +10,10 @@
     "prenodemon": "mkdir -p /var/lib/bot || true; knex migrate:latest --knexfile ./src/knexfile.ts",
     "nodemon": "nodemon",
     "start": "node ./dist/index.js",
+    "pretest": "npm run lint",
     "test": "jest",
-    "typecheck": "tsc --noEmit --skipLibCheck",
-    "preversion": "npm run lint && npm run build && npm test"
+    "posttest": "npm run build",
+    "preversion": "npm test"
   },
   "main": "./dist/index.js",
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
