@@ -131,7 +131,7 @@ jobs:
           body: ${{ steps.release_params.body }}
 
       - name: Trigger deployment
-        if: ${{ github.event_name == 'workflow_dispatch' && env.REFKIND == 'tag' }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         uses: myrotvorets/trigger-repository-dispatch-action@1.0.0
         with:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
