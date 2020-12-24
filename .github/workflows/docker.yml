@@ -23,7 +23,7 @@ jobs:
 
       - name: Normalize inputs
         run: |
-          if [ "${{ github.event_name" = "workflow_dispatch" ]; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             IMAGE_TAGS="${{ env.IMAGE_NAME }}:${{ github.event.inputs.tag }}"
             IMAGE_VERSION="${{ github.event.inputs.tag }}"
             COMMIT_HASH="${{ github.sha }}"
@@ -34,8 +34,8 @@ jobs:
             IMAGE_TAGS=""
             IMAGE_VERSION=""
             COMMIT_HASH=${{ github.event.client_payload.sha }}
-            REFERENCE=${{ github.event.client_payload.ref }}
-            EVENT=${{ github.event.client_payload.event_name }}
+            REFERENCE="${{ github.event.client_payload.ref }}"
+            EVENT="${{ github.event.client_payload.event_name }}"
             REFKIND=""
           fi
 
