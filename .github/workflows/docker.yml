@@ -70,7 +70,7 @@ jobs:
         run: |
           echo IMAGE_TAGS="${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
           echo IMAGE_VERSION="${{ steps.meta.outputs.version }}" >> $GITHUB_ENV
-          echo REFKIND="${{ steps.kind.outputs.kind }}"
+          echo REFKIND="${{ steps.kind.outputs.kind }}" >> $GITHUB_ENV
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
