@@ -31,7 +31,7 @@ jobs:
         run: npm cit
 
       - name: Trigger Docker build
-        uses: myrotvorets/trigger-repository-dispatch-action@1.0.0
+        uses: myrotvorets/trigger-repository-dispatch-action@1.0.1
         with:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
           type: tests-passed
