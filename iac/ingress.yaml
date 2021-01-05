@@ -13,8 +13,6 @@ spec:
     - hosts:
         - tgbots.myrotvorets.center
       secretName: certificate-prod-tgbots
-
-spec:
   rules:
     - host: tgbots.myrotvorets.center
       http:
