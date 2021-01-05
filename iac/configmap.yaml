@@ -5,7 +5,7 @@ metadata:
   namespace: bots
 data:
   CHAT_ID: "-1001454569993"
-  KNEX_DRIVER: mysql
+  KNEX_DRIVER: mariadb
   LISTEN_HOST: "0.0.0.0"
   NEWS_ENDPOINT: https://myrotvorets.news
   NODE_ENV: production

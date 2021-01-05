@@ -25,7 +25,8 @@
     "debug": "^4.3.1",
     "envalid": "^6.0.2",
     "knex": "^0.21.15",
-    "mysql": "^2.18.1",
+    "knex-mariadb": "^2.0.0",
+    "mariadb": "^2.5.2",
     "telegraf": "^3.38.0"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import type { Config } from 'knex';
+import type { Client, Config } from 'knex';
 import type { Database } from 'sqlite3';
 import { cleanEnv, str } from 'envalid';
 
@@ -6,7 +6,7 @@ const env = cleanEnv(
     process.env,
     {
         NODE_ENV: str({ default: 'development' }),
-        KNEX_DRIVER: str({ default: 'sqlite3', choices: ['sqlite3', 'mysql'] }), // ! Run `npm i driver` if any other driver is needed
+        KNEX_DRIVER: str({ default: 'sqlite3', choices: ['sqlite3', 'mysql', 'mariadb'] }), // ! Run `npm i driver` if any other driver is needed
         KNEX_DATABASE: str(),
         KNEX_HOST: str({ default: 'localhost' }),
         KNEX_USER: str({ default: '' }),
@@ -32,6 +32,19 @@ export function buildKnexConfig(): Config {
                     // Override in order not to import extra types
                     // eslint-disable-next-line @typescript-eslint/ban-types
                     afterCreate: (conn: Database, cb: Function): unknown => conn.run('PRAGMA foreign_keys = ON', cb),
+                },
+            };
+
+        case 'mariadb':
+            return {
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                client: require('knex-mariadb') as typeof Client,
+                asyncStackTraces: env.NODE_ENV === 'development',
+                connection: {
+                    database: env.KNEX_DATABASE,
+                    host: env.KNEX_HOST,
+                    user: env.KNEX_USER,
+                    password: env.KNEX_PASSWORD,
                 },
             };
 
