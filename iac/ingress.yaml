@@ -4,14 +4,23 @@ metadata:
   name: myrnews-bot-ingress
   namespace: bots
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    cert-manager.io/issuer: clusterissuer-le-myrotvorets
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - tgbots.myrotvorets.center
+      secretName: certificate-prod-tgbots
+
 spec:
   rules:
     - host: tgbots.myrotvorets.center
       http:
         paths:
           - pathType: Prefix
-            path: /
+            path: /psbnews/
             backend:
               service:
                 name: myrnews-bot

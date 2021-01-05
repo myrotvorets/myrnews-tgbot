@@ -15,4 +15,6 @@ resources:
   - "configmap.yaml"
   - "deployment.yaml"
   - "service.yaml"
+  - "clusterissuer.yaml"
+  - "certificate.yaml"
   - "ingress.yaml"
