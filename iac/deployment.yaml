@@ -24,6 +24,9 @@ spec:
                 name: myrnews-bot-configmap
             - secretRef:
                 name: myrnews-bot-secret
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
           resources:
             limits:
               memory: "128Mi"
@@ -32,3 +35,6 @@ spec:
             allowPrivilegeEscalation: false
             privileged: false
             readOnlyRootFilesystem: true
+      volumes:
+        - name: tmp
+          emptyDir: {}

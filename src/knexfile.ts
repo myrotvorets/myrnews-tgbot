@@ -35,6 +35,7 @@ export function buildKnexConfig(): Config {
                 },
             };
 
+        /* istanbul ignore next */
         case 'mariadb':
             return {
                 // eslint-disable-next-line @typescript-eslint/no-var-requires
