@@ -25,7 +25,16 @@ class MyTelegraf<TContext extends TelegrafContext> extends Telegraf<TContext> {
     public handleUpdate(update: Update, webhookResponse?: ServerResponse): Promise<unknown> {
         const tracer = api.trace.getTracer('tracer');
         const span = tracer.startSpan(`telegraf.handleUpdate(${update.update_id})`);
-        return tracer.withSpan(span, () => super.handleUpdate(update, webhookResponse));
+        return super.handleUpdate(update, webhookResponse).then(
+            (r) => {
+                span.end();
+                return Promise.resolve(r);
+            },
+            (e) => {
+                span.end();
+                return Promise.reject(e);
+            },
+        );
     }
 }
 
