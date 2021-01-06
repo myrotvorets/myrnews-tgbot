@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import { configure } from './lib/tracing';
 
 void (async (): Promise<void> => {
