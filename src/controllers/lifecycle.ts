@@ -4,6 +4,7 @@ import debug from 'debug';
 import knex from 'knex';
 import Telegraf from 'telegraf';
 import { InlineKeyboardMarkup } from 'telegram-typings';
+import api from '@opentelemetry/api';
 import { addPost, checkPostExists } from '../lib/db';
 import { Environment } from '../lib/environment';
 import { buildInlineKeyboardFromPost, generateDescription } from '../lib/utils';
@@ -54,6 +55,8 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
 
 export async function lifecycle(env: Environment, bot: Telegraf<BotContext>): Promise<void> {
     const inner = async function (): Promise<void> {
+        const tracer = api.trace.getTracer('tracer');
+        const span = tracer.startSpan('Get posts');
         try {
             const posts = await getNewPosts(env.NEWS_ENDPOINT, bot.context.db);
             dbg('Got %d new posts', posts.length);
@@ -63,6 +66,8 @@ export async function lifecycle(env: Environment, bot: Telegraf<BotContext>): Pr
         } catch (e) {
             Bugsnag.notify(e);
             error(e);
+        } finally {
+            span.end();
         }
 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
