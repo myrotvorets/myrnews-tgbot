@@ -58,6 +58,8 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.event.client_payload.sha }}
 
+      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
