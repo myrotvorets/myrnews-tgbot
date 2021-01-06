@@ -13,4 +13,4 @@ data:
   WEBHOOK_DOMAIN: tgbots.myrotvorets.center
   WEBHOOK_PORT: "3010"
   ENABLE_TRACING: "1"
-  ZIPKIN_ENDPOINT: zipkin.default.svc.k8s001.myrotvorets.center.
+  ZIPKIN_ENDPOINT: http://zipkin.default.svc.k8s001.myrotvorets.center:9411/api/v2/spans
