@@ -21,7 +21,7 @@
   "dependencies": {
     "@bugsnag/js": "^7.5.4",
     "@myrotvorets/envalidators": "^1.3.1",
-    "@myrotvorets/opentelemetry-configurator": "^1.1.1",
+    "@myrotvorets/opentelemetry-configurator": "^1.1.2",
     "@myrotvorets/opentelemetry-plugin-knex": "^0.4.0",
     "@opentelemetry/api": "^0.14.0",
     "axios": "^0.21.1",
