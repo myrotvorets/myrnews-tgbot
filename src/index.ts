@@ -1,5 +1,7 @@
 /* istanbul ignore file */
 
+import './lib/tracing';
+
 import Bugsnag from '@bugsnag/js';
 import Telegraf from 'telegraf';
 import crypto from 'crypto';
