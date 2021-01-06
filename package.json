@@ -1,7 +1,7 @@
 {
   "name": "myrnews-tgbot",
   "private": true,
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Myrotvorets.news Telegram Bot",
   "scripts": {
     "build": "tsc",
