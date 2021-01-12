@@ -1,13 +1,17 @@
 # Development / integration testing only
-
 version: '3.0'
 
 services:
   bot:
-    image: node:lts-alpine
+    image: node:lts-slim
     volumes: 
       - './:/src/bot'
     working_dir: /src/bot
     command: npm run nodemon
     env_file:
       - .env
+    depends_on:
+      - zipkin
+
+  zipkin:
+    image: openzipkin/zipkin

@@ -1,6 +1,5 @@
 import path from 'path';
 import knex from 'knex';
-// eslint-disable-next-line import/named
 import { buildKnexConfig } from '../src/knexfile';
 import type { Post, Reaction, UserReaction } from '../src/lib/types';
 import {
@@ -18,7 +17,7 @@ const db = knex(buildKnexConfig());
 beforeAll(
     (): Promise<unknown> =>
         db.migrate
-            .latest({ directory: path.join(__dirname, '..', 'src', 'migrations') })
+            .latest({ directory: path.join(__dirname, 'migrations') })
             .then((): Promise<unknown> => db.seed.run({ directory: path.join(__dirname, 'seeds') })),
 );
 

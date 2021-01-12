@@ -1,18 +1,17 @@
 import { StatusCode, context, setActiveSpan } from '@opentelemetry/api';
 import { BasePlugin } from '@opentelemetry/core';
-import type { Telegraf } from 'telegraf';
-import Telegram from 'telegraf/typings/telegram';
+import type Telegraf from 'telegraf';
 import shimmer from 'shimmer';
 import path from 'path';
 import { ServerResponse } from 'http';
-import { Update, UpdateType } from 'telegraf/typings/telegram-types';
+import { Update } from 'telegraf/typings/telegram-types';
 
 interface IPackage {
     name: string;
     version: string;
 }
 
-const telegrafBaseDir = path.dirname(require.resolve('telegraf'));
+const telegrafBaseDir = path.dirname(path.dirname(require.resolve('telegraf')));
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const telegrafVersion = (require(path.join(telegrafBaseDir, 'package.json')) as IPackage).version;
 
@@ -21,6 +20,11 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
     public static readonly COMPONENT = 'telegraf';
 
     protected readonly _basedir = telegrafBaseDir;
+    protected _internalFilesList = {
+        '*': {
+            telegraf: 'lib/telegraf',
+        },
+    };
 
     private enabled = false;
 
@@ -30,10 +34,9 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
 
     protected patch(): typeof Telegraf {
         // istanbul ignore else
-        if (!this.enabled) {
-            const proto = this._moduleExports.prototype;
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            shimmer.wrap(proto, 'fetchUpdates' as any, this.patchFetchUpdates);
+        if (!this.enabled && this._internalFilesExports.telegraf) {
+            const proto = (this._internalFilesExports.telegraf as Record<string, ObjectConstructor>).Telegraf
+                .prototype as Telegraf.Telegraf;
             shimmer.wrap(proto, 'handleUpdate', this.patchHandleUpdate);
 
             this.enabled = true;
@@ -44,8 +47,9 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
 
     protected unpatch(): void {
         // istanbul ignore else
-        if (this.enabled) {
-            const proto = this._moduleExports.prototype;
+        if (this.enabled && this._internalFilesExports.telegraf) {
+            const proto = (this._internalFilesExports.telegraf as Record<string, ObjectConstructor>).Telegraf
+                .prototype as Telegraf.Telegraf;
             shimmer.massUnwrap([proto], ['handleUpdate']);
             this.enabled = false;
         }
@@ -69,47 +73,6 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
                     },
                 ),
             );
-        };
-    };
-
-    private readonly patchFetchUpdates = (original: () => void): typeof original => {
-        const self = this;
-        return function fetchUpdates(this: Telegraf, ...params): ReturnType<typeof original> {
-            const telegram: Telegram = this.telegram;
-            shimmer.wrap(telegram, 'getUpdates', self.patchGetUpdates);
-            return original.apply(this, params);
-        };
-    };
-
-    private readonly patchGetUpdates = (
-        original: (
-            timeout: number,
-            limit: number,
-            offset: number,
-            allowedUpdates: readonly UpdateType[] | undefined,
-        ) => Promise<Update[]>,
-    ): typeof original => {
-        const self = this;
-        return function getUpdates(this: Telegram, ...params): ReturnType<typeof original> {
-            const span = self._tracer.startSpan(`telegraf.getUpdates`);
-            return context.with(setActiveSpan(context.active(), span), () => {
-                return original
-                    .apply(this, params)
-                    .then(
-                        (result) => {
-                            span.setStatus({ code: StatusCode.OK });
-                            return Promise.resolve(result);
-                        },
-                        (error) => {
-                            span.setStatus({ code: StatusCode.ERROR });
-                            return Promise.reject(error);
-                        },
-                    )
-                    .finally(() => {
-                        span.end();
-                        shimmer.unwrap(this, 'getUpdates');
-                    });
-            });
         };
     };
 }

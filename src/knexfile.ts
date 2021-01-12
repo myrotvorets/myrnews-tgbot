@@ -14,6 +14,7 @@ const env = cleanEnv(
     },
     {
         strict: true,
+        dotEnvPath: null,
     },
 );
 
@@ -63,8 +64,3 @@ export function buildKnexConfig(): Config {
             };
     }
 }
-
-module.exports = {
-    buildKnexConfig,
-    [env.NODE_ENV]: buildKnexConfig(),
-};
