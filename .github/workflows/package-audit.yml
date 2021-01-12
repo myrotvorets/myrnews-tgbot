@@ -9,7 +9,7 @@ on:
       - package-lock.json
   pull_request:
     branches:
-      - master
+      - '**:**'
     paths:
       - package.json
       - package-lock.json
