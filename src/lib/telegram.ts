@@ -3,7 +3,7 @@
 import debug from 'debug';
 import Bugsnag from '@bugsnag/js';
 import type { InlineKeyboardMarkup, Message } from 'telegraf/typings/telegram-types';
-import type { BotContext } from '../types';
+import type { BotContext } from '../lib/types';
 import { buildInlineKeyboardFromMarkup } from './utils';
 import { getPostStats } from './db';
 

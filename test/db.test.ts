@@ -2,7 +2,7 @@ import path from 'path';
 import knex from 'knex';
 // eslint-disable-next-line import/named
 import { buildKnexConfig } from '../src/knexfile';
-import type { Post, Reaction, UserReaction } from '../src/types';
+import type { Post, Reaction, UserReaction } from '../src/lib/types';
 import {
     addPost,
     addReaction,

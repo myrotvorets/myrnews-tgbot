@@ -1,7 +1,7 @@
 import Bugsnag from '@bugsnag/js';
 import debug from 'debug';
 import { react } from '../lib/db';
-import type { BotContext, Reaction } from '../types';
+import type { BotContext, Reaction } from '../lib/types';
 import { editMessageReplyMarkup } from '../lib/telegram';
 
 const error = debug('bot:error');

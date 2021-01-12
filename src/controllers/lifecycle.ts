@@ -9,7 +9,7 @@ import { addPost, checkPostExists } from '../lib/db';
 import { Environment } from '../lib/environment';
 import { buildInlineKeyboardFromPost, generateDescription } from '../lib/utils';
 import { getFeaturedImageUrl, getPosts } from '../lib/wpapi';
-import type { BotContext, PostData } from '../types';
+import type { BotContext, PostData } from '../lib/types';
 
 const error = debug('bot:error');
 const dbg = debug('bot:debug');
@@ -48,7 +48,7 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
             await addPost(bot.context.db as knex, entry.id);
         } catch (e) {
             error(e);
-            // Bugsnag.notify(e);
+            Bugsnag.notify(e);
         }
     }
 }

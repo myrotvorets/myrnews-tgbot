@@ -5,7 +5,7 @@ import { Telegraf } from 'telegraf';
 import crypto from 'crypto';
 import knex from 'knex';
 import { buildKnexConfig } from './knexfile';
-import type { BotContext } from './types';
+import type { BotContext } from './lib/types';
 import { getEnvironment } from './lib/environment';
 import { queryCallbackHandler } from './controllers/callbackquery';
 import { lifecycle } from './controllers/lifecycle';

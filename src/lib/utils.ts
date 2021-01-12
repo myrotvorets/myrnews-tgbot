@@ -1,6 +1,6 @@
 import type { InlineKeyboardButton, InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
 import { Markup } from 'telegraf';
-import type { PostData, UserReactionStats } from '../types';
+import type { PostData, UserReactionStats } from '../lib/types';
 
 export const TEXT_LIKE = '👍';
 export const TEXT_HEART = '❤️';

@@ -1,5 +1,5 @@
 import type knex from 'knex';
-import type { Post, Reaction, UserReaction, UserReactionStats } from '../types';
+import type { Post, Reaction, UserReaction, UserReactionStats } from '../lib/types';
 
 export function addPost(db: knex, postId: number): Promise<number[]> {
     return db<Post>('posts').insert({ post_id: postId });

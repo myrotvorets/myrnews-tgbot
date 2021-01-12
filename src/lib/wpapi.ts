@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import type { PostData } from '../types';
+import type { PostData } from '../lib/types';
 
 interface WPPost {
     id: number;
