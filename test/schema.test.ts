@@ -1,11 +1,10 @@
 import path from 'path';
 import knex from 'knex';
-// eslint-disable-next-line import/named
 import { buildKnexConfig } from '../src/knexfile';
 
 const db = knex(buildKnexConfig());
 
-beforeAll((): Promise<unknown> => db.migrate.latest({ directory: path.join(__dirname, '..', 'src', 'migrations') }));
+beforeAll((): Promise<unknown> => db.migrate.latest({ directory: path.join(__dirname, 'migrations') }));
 afterAll(() => db.destroy());
 
 describe('Database schema', (): void => {

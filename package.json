@@ -7,7 +7,7 @@
     "build": "tsc",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "prenodemon": "mkdir -p /var/lib/bot || true; knex migrate:latest --knexfile ./src/knexfile.ts",
+    "prenodemon": "ts-node --transpile-only ./test/migrate.ts",
     "nodemon": "nodemon",
     "start": "node ./dist/index.js",
     "pretest": "npm run lint",
