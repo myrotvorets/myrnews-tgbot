@@ -1,4 +1,4 @@
-import type { InlineKeyboardButton, InlineKeyboardMarkup } from 'telegram-typings';
+import type { InlineKeyboardButton, InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
 import { Markup } from 'telegraf';
 import type { PostData, UserReactionStats } from '../types';
 
@@ -9,12 +9,12 @@ export const TEXT_SKULL = '☠️';
 
 export function buildInlineKeyboardFromPost({ id, link }: PostData): InlineKeyboardButton[][] {
     return [
-        [Markup.urlButton('Читати далі…', link)],
+        [Markup.button.url('Читати далі…', link)],
         [
-            Markup.callbackButton(TEXT_LIKE, `L:${id}`),
-            Markup.callbackButton(TEXT_HEART, `H:${id}`),
-            Markup.callbackButton(TEXT_SHIP, `S:${id}`),
-            Markup.callbackButton(TEXT_SKULL, `B:${id}`),
+            Markup.button.callback(TEXT_LIKE, `L:${id}`),
+            Markup.button.callback(TEXT_HEART, `H:${id}`),
+            Markup.button.callback(TEXT_SHIP, `S:${id}`),
+            Markup.button.callback(TEXT_SKULL, `B:${id}`),
         ],
     ];
 }
@@ -25,16 +25,12 @@ export function buildInlineKeyboardFromMarkup(
     postId: number,
 ): InlineKeyboardButton[][] {
     return [
+        [markup?.inline_keyboard?.[0]?.[0] ? markup.inline_keyboard[0][0] : Markup.button.url('', '#')],
         [
-            markup && markup.inline_keyboard[0] && markup.inline_keyboard[0][0]
-                ? markup.inline_keyboard[0][0]
-                : Markup.button(''),
-        ],
-        [
-            Markup.callbackButton(likes ? `${TEXT_LIKE} ×${likes}` : `${TEXT_LIKE}`, `L:${postId}`),
-            Markup.callbackButton(hearts ? `${TEXT_HEART} ×${hearts}` : `${TEXT_HEART}`, `H:${postId}`),
-            Markup.callbackButton(ships ? `${TEXT_SHIP} ×${ships}` : `${TEXT_SHIP}`, `S:${postId}`),
-            Markup.callbackButton(skulls ? `${TEXT_SKULL} ×${skulls}` : `${TEXT_SKULL}`, `B:${postId}`),
+            Markup.button.callback(likes ? `${TEXT_LIKE} ×${likes}` : `${TEXT_LIKE}`, `L:${postId}`),
+            Markup.button.callback(hearts ? `${TEXT_HEART} ×${hearts}` : `${TEXT_HEART}`, `H:${postId}`),
+            Markup.button.callback(ships ? `${TEXT_SHIP} ×${ships}` : `${TEXT_SHIP}`, `S:${postId}`),
+            Markup.button.callback(skulls ? `${TEXT_SKULL} ×${skulls}` : `${TEXT_SKULL}`, `B:${postId}`),
         ],
     ];
 }

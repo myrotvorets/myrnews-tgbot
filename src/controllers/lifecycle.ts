@@ -2,9 +2,9 @@
 import Bugsnag from '@bugsnag/js';
 import debug from 'debug';
 import knex from 'knex';
-import Telegraf from 'telegraf';
-import { InlineKeyboardMarkup } from 'telegram-typings';
+import { Telegraf } from 'telegraf';
 import api from '@opentelemetry/api';
+import { InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
 import { addPost, checkPostExists } from '../lib/db';
 import { Environment } from '../lib/environment';
 import { buildInlineKeyboardFromPost, generateDescription } from '../lib/utils';
@@ -45,34 +45,35 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
                 await bot.telegram.sendMessage(chat, text, { parse_mode, reply_markup });
             }
 
-            await addPost(bot.context.db, entry.id);
+            await addPost(bot.context.db as knex, entry.id);
         } catch (e) {
-            Bugsnag.notify(e);
             error(e);
+            // Bugsnag.notify(e);
         }
     }
 }
 
-export async function lifecycle(env: Environment, bot: Telegraf<BotContext>): Promise<void> {
-    const inner = async function (): Promise<void> {
+export function lifecycle(env: Environment, bot: Telegraf<BotContext>): void {
+    const inner = (): void => {
         const tracer = api.trace.getTracer('tracer');
         const span = tracer.startSpan('Get posts');
-        try {
-            const posts = await getNewPosts(env.NEWS_ENDPOINT, bot.context.db);
-            dbg('Got %d new posts', posts.length);
-            if (posts.length) {
-                await sendNewPosts(bot, env.CHAT_ID, posts);
+        void tracer.withSpan(span, async () => {
+            try {
+                const posts = await getNewPosts(env.NEWS_ENDPOINT, bot.context.db as knex);
+                dbg('Got %d new posts', posts.length);
+                if (posts.length) {
+                    await sendNewPosts(bot, env.CHAT_ID, posts);
+                }
+            } catch (e) {
+                error(e);
+                Bugsnag.notify(e);
+            } finally {
+                span.end();
             }
-        } catch (e) {
-            Bugsnag.notify(e);
-            error(e);
-        } finally {
-            span.end();
-        }
+        });
 
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         setTimeout(inner, env.FETCH_INTERVAL);
     };
 
-    await inner();
+    inner();
 }

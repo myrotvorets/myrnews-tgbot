@@ -1,4 +1,4 @@
-import { InlineKeyboardMarkup } from 'telegram-typings';
+import { InlineKeyboardButton, InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
 import { buildInlineKeyboardFromMarkup, buildInlineKeyboardFromPost, generateDescription } from '../src/lib/utils';
 import type { PostData, UserReactionStats } from '../src/types';
 
@@ -80,7 +80,9 @@ describe('buildInlineKeyboardFromMarkup()', (): void => {
         expect(actual).toHaveLength(2);
         expect(actual[0]).toHaveLength(1);
         expect(actual[0][0]).toHaveProperty('url');
-        expect(actual[0][0].url).toEqual(markup.inline_keyboard[0][0].url);
+        expect((actual[0][0] as InlineKeyboardButton.UrlButton).url).toEqual(
+            (markup.inline_keyboard[0][0] as InlineKeyboardButton.UrlButton).url,
+        );
     });
 
     it('should generate URL if markup is undefined', (): void => {

@@ -1,8 +1,8 @@
 /* eslint-disable no-invalid-this */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { InlineKeyboardMarkup } from 'telegram-typings';
 import debug from 'debug';
 import Bugsnag from '@bugsnag/js';
+import type { InlineKeyboardMarkup, Message } from 'telegraf/typings/telegram-types';
 import type { BotContext } from '../types';
 import { buildInlineKeyboardFromMarkup } from './utils';
 import { getPostStats } from './db';
@@ -19,8 +19,8 @@ const error = debug('bot:error');
 const dbg = debug('bot:debug');
 
 function notify(e: Error): void {
-    Bugsnag.notify(e);
     error(e);
+    Bugsnag.notify(e);
 }
 
 interface TelegramError extends Error {
@@ -92,7 +92,7 @@ export function editMessageReplyMarkup(context: BotContext, postId: number): voi
         chat_id: context.chat?.id,
         message_id: context.callbackQuery?.message?.message_id,
         inline_message_id: context.callbackQuery?.inline_message_id,
-        reply_markup: context.callbackQuery?.message?.reply_markup,
+        reply_markup: (context.callbackQuery?.message as Message.CommonMessage | undefined)?.reply_markup,
     };
 
     dbg('Queueing %o', entry);

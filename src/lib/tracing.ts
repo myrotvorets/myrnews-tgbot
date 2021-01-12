@@ -18,6 +18,9 @@ export async function configure(): Promise<void> {
                     knex: {
                         path: '@myrotvorets/opentelemetry-plugin-knex',
                     },
+                    telegraf: {
+                        path: `${__dirname}/ot-telegraf`,
+                    },
                 },
             },
         });
