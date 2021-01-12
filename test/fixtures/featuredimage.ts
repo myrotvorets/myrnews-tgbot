@@ -58,3 +58,8 @@ export const getFeaturedImageResponse = {
         replies: [{ embeddable: true, href: 'https://myrotvorets.news/wp-json/wp/v2/comments?post=43762' }],
     },
 };
+
+export const getFeaturedImageResponseBadURL = {
+    ...getFeaturedImageResponse,
+    guid: { rendered: 'myrotvorets.news/wp-content/uploads/2019/10/Screenshot_5-3.png' },
+};

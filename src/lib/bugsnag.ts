@@ -25,23 +25,29 @@ function onError(): boolean {
 
 export async function startBugsnag(env: Environment): Promise<void> {
     const readFile = promisify(fs.readFile);
-    let version: string;
+    let version: string | undefined;
 
-    if (process.env.npm_package_version) {
-        version = process.env.npm_package_version;
-    } else {
-        const json = JSON.parse(
-            await readFile(path.join(path.dirname(require.main?.filename || __dirname), 'package.json'), 'utf-8'),
-        ) as PackageJson;
+    try {
+        if (process.env.npm_package_version) {
+            version = process.env.npm_package_version;
+        } else {
+            const json = JSON.parse(
+                await readFile(path.join(path.dirname(require.main?.filename || __dirname), 'package.json'), 'utf-8'),
+            ) as PackageJson;
 
-        version = json.version;
+            version = json.version;
+        }
+    } catch (e) {
+        version = undefined;
     }
 
-    Bugsnag.start({
-        apiKey: env.BUGSNAG_API_KEY || '',
-        appVersion: version,
-        appType: 'bot',
-        releaseStage: process.env.NODE_ENV || 'development',
-        onError,
-    });
+    if (env.BUGSNAG_API_KEY) {
+        Bugsnag.start({
+            apiKey: env.BUGSNAG_API_KEY || '',
+            appVersion: version,
+            appType: 'bot',
+            releaseStage: process.env.NODE_ENV || 'development',
+            onError,
+        });
+    }
 }

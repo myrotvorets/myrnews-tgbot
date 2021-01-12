@@ -1,21 +1,18 @@
 import Bugsnag from '@bugsnag/js';
 import debug from 'debug';
 import { react } from '../lib/db';
-import type { BotContext, Reaction } from '../types';
+import type { BotContext, Reaction } from '../lib/types';
 import { editMessageReplyMarkup } from '../lib/telegram';
-
-// ! Typings are incorrect, they miss `reply_markup` field in `Message`
-declare module 'telegram-typings' {
-    interface Message {
-        reply_markup: InlineKeyboardMarkup;
-    }
-}
 
 const error = debug('bot:error');
 const warn = debug('bot:warn');
 
 export async function queryCallbackHandler(context: BotContext): Promise<void> {
-    if (!context.callbackQuery || !context.callbackQuery.data || !/^[LHSB]:\d+$/u.exec(context.callbackQuery.data)) {
+    if (
+        !context.callbackQuery ||
+        !('data' in context.callbackQuery) ||
+        !/^[LHSB]:\d+$/u.exec(context.callbackQuery.data)
+    ) {
         warn('Bad input');
         return;
     }
@@ -29,7 +26,7 @@ export async function queryCallbackHandler(context: BotContext): Promise<void> {
         await react(context.db, pid, user_id, reaction as Reaction);
         editMessageReplyMarkup(context, pid);
     } catch (e) {
-        Bugsnag.notify(e);
         error(e);
+        Bugsnag.notify(e);
     }
 }

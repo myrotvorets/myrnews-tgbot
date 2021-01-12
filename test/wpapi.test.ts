@@ -1,16 +1,18 @@
-import axios from 'axios';
-import { getFeaturedImageResponse } from './fixtures/featuredimage';
+import * as f from 'node-fetch';
+import fetch from 'node-fetch';
+import { getFeaturedImageResponse, getFeaturedImageResponseBadURL } from './fixtures/featuredimage';
 import { getFeaturedImageUrl, getPosts } from '../src/lib/wpapi';
 import { getPostsResponse } from './fixtures/posts';
-import type { PostData } from '../src/types';
+import type { PostData } from '../src/lib/types';
 
-jest.mock('axios');
+jest.mock('node-fetch');
 
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
+const { Response } = jest.requireActual<typeof f>('node-fetch');
 
 describe('getPosts', () => {
     it('should properly extract data', () => {
-        mockedAxios.get.mockResolvedValue({ data: getPostsResponse });
+        mockedFetch.mockResolvedValue(new Response(JSON.stringify(getPostsResponse)));
 
         const expected: PostData[] = [
             {
@@ -35,10 +37,16 @@ describe('getPosts', () => {
 
 describe('getFeaturedImageURL', () => {
     it('should return image URL', () => {
-        mockedAxios.get.mockResolvedValue({ data: getFeaturedImageResponse });
+        mockedFetch.mockResolvedValue(new Response(JSON.stringify(getFeaturedImageResponse)));
 
         return expect(getFeaturedImageUrl('https://example.test', 43762)).resolves.toBe(
             'https://myrotvorets.news/wp-content/uploads/2019/10/Screenshot_5-3.png',
         );
+    });
+
+    it('should return empty URL if the original image URL is malformed', () => {
+        mockedFetch.mockResolvedValue(new Response(JSON.stringify(getFeaturedImageResponseBadURL)));
+
+        return expect(getFeaturedImageUrl('https://example.test', 43762)).resolves.toBe('');
     });
 });
