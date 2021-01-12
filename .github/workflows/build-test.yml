@@ -12,8 +12,23 @@ on:
   workflow_dispatch:
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      head_tag: ${{ steps.head_tag.outputs.head_tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Check if Git tag exists
+        id: head_tag
+        run: echo "::set-output name=head_tag::$(git tag --points-at HEAD)"
+        if: startsWith(github.ref, 'refs/heads/')
+
   build:
     runs-on: ubuntu-latest
+    needs: prepare
+    if: ${{ !startsWith(github.ref, 'refs/heads/') || !needs.prepare.outputs.head_tag }}
     strategy:
       matrix:
         node_version: ['14']
@@ -22,33 +37,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
-      - name: Check if Git tag exists
-        run: echo "::set-env name=HEAD_TAG::$(git tag --points-at HEAD)"
-        if: startsWith(github.ref, 'refs/heads/')
-
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.4
-        if: startsWith(github.ref, 'refs/heads/') && !env.HEAD_TAG
         with:
           node-version: ${{ matrix.node_version }}
           registry-url: https://npm.pkg.github.com
 
       - name: Install dependencies
         run: npm ci --ignore-scripts
-        if: startsWith(github.ref, 'refs/heads/') && !env.HEAD_TAG
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run postinstall scripts
-        if: startsWith(github.ref, 'refs/heads/') && !env.HEAD_TAG
         run: npm rebuild && npm run prepare --if-present
 
       - name: Run tests
-        if: startsWith(github.ref, 'refs/heads/') && !env.HEAD_TAG
         run: npm test
 
       - name: Trigger Docker build
-        if: startsWith(github.ref, 'refs/heads/') && !env.HEAD_TAG
         uses: myrotvorets/trigger-repository-dispatch-action@1.0.1
         with:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
