@@ -20,6 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.4
 
+      - name: Retrieve tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
       - name: Check if Git tag exists
         id: head_tag
         run: echo "::set-output name=head_tag::$(git tag --points-at HEAD)"
