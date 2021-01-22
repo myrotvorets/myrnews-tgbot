@@ -24,7 +24,7 @@
     "@myrotvorets/opentelemetry-configurator": "^1.1.3",
     "@myrotvorets/opentelemetry-plugin-knex": "^0.4.0",
     "@opentelemetry/api": "^0.14.0",
-    "@opentelemetry/core": "^0.14.0",
+    "@opentelemetry/core": "^0.15.0",
     "@opentelemetry/semantic-conventions": "^0.14.0",
     "debug": "^4.3.2",
     "envalid": "^6.0.2",
