@@ -1,4 +1,4 @@
-import { StatusCode, context, setActiveSpan } from '@opentelemetry/api';
+import { StatusCode, context, setSpan } from '@opentelemetry/api';
 import { BasePlugin } from '@opentelemetry/core';
 import type Telegraf from 'telegraf';
 import shimmer from 'shimmer';
@@ -61,7 +61,7 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
         const self = this;
         return function handleUpdate(this: typeof Telegraf, update: Update, ...params): ReturnType<typeof original> {
             const span = self._tracer.startSpan(`telegraf.handleUpdate(${update.update_id})`);
-            return context.with(setActiveSpan(context.active(), span), () =>
+            return context.with(setSpan(context.active(), span), () =>
                 original.apply(this, [update, ...params]).then(
                     (result) => {
                         span.setStatus({ code: StatusCode.OK }).end();

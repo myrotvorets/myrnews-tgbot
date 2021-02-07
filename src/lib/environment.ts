@@ -18,24 +18,18 @@ let env: Environment | undefined;
 
 export function getEnvironment(): Environment {
     if (!env) {
-        env = cleanEnv(
-            process.env,
-            {
-                NODE_ENV: str({ default: 'development' }),
-                BUGSNAG_API_KEY: str(),
-                BOT_TOKEN: str(),
-                CHAT_ID: num(),
-                WEBHOOK_DOMAIN: str({ default: '' }),
-                WEBHOOK_PORT: portOrZero({ default: 0 }),
-                LISTEN_HOST: host({ default: '127.0.0.1' }),
-                NEWS_ENDPOINT: url(),
-                FETCH_INTERVAL: num({ default: 600_000 }),
-                PATH_PREFIX: str({ default: '' }),
-            },
-            {
-                strict: true,
-            },
-        );
+        env = cleanEnv(process.env, {
+            NODE_ENV: str({ default: 'development' }),
+            BUGSNAG_API_KEY: str(),
+            BOT_TOKEN: str(),
+            CHAT_ID: num(),
+            WEBHOOK_DOMAIN: str({ default: '' }),
+            WEBHOOK_PORT: portOrZero({ default: 0 }),
+            LISTEN_HOST: host({ default: '127.0.0.1' }),
+            NEWS_ENDPOINT: url(),
+            FETCH_INTERVAL: num({ default: 600_000 }),
+            PATH_PREFIX: str({ default: '' }),
+        });
 
         process.env.NODE_ENV = env.NODE_ENV;
     }

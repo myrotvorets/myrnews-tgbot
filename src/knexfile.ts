@@ -2,21 +2,14 @@ import type { Client, Config } from 'knex';
 import type { Database } from 'sqlite3';
 import { cleanEnv, str } from 'envalid';
 
-const env = cleanEnv(
-    process.env,
-    {
-        NODE_ENV: str({ default: 'development' }),
-        KNEX_DRIVER: str({ default: 'sqlite3', choices: ['sqlite3', 'mysql', 'mariadb'] }), // ! Run `npm i driver` if any other driver is needed
-        KNEX_DATABASE: str(),
-        KNEX_HOST: str({ default: 'localhost' }),
-        KNEX_USER: str({ default: '' }),
-        KNEX_PASSWORD: str({ default: '' }),
-    },
-    {
-        strict: true,
-        dotEnvPath: null,
-    },
-);
+const env = cleanEnv(process.env, {
+    NODE_ENV: str({ default: 'development' }),
+    KNEX_DRIVER: str({ default: 'sqlite3', choices: ['sqlite3', 'mysql', 'mariadb'] }), // ! Run `npm i driver` if any other driver is needed
+    KNEX_DATABASE: str(),
+    KNEX_HOST: str({ default: 'localhost' }),
+    KNEX_USER: str({ default: '' }),
+    KNEX_PASSWORD: str({ default: '' }),
+});
 
 export function buildKnexConfig(): Config {
     // eslint-disable-next-line sonarjs/no-small-switch
