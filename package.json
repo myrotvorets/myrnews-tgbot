@@ -29,7 +29,7 @@
     "@opentelemetry/semantic-conventions": "^0.17.0",
     "debug": "^4.3.2",
     "envalid": "^7.0.0",
-    "knex": "^0.21.17",
+    "knex": "^0.21.18",
     "knex-mariadb": "^2.0.0",
     "mariadb": "^2.5.2",
     "node-fetch": "^2.6.1",
