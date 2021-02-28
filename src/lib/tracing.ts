@@ -11,18 +11,18 @@ export async function configure(): Promise<void> {
     if (+(process.env.ENABLE_TRACING || 0)) {
         const configurator = new OpenTelemetryConfigurator({
             serviceName: 'bot/myrotvorets.news',
-            tracer: {
-                plugins: {
-                    http: {},
-                    https: {},
-                    knex: {
-                        path: '@myrotvorets/opentelemetry-plugin-knex',
-                    },
-                    telegraf: {
-                        path: `${__dirname}/ot-telegraf`,
+            instrumentations: [
+                {
+                    plugins: {
+                        knex: {
+                            path: '@myrotvorets/opentelemetry-plugin-knex',
+                        },
+                        telegraf: {
+                            path: `${__dirname}/ot-telegraf`,
+                        },
                     },
                 },
-            },
+            ],
         });
 
         await configurator.start();

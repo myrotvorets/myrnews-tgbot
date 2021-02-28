@@ -22,9 +22,9 @@
   "dependencies": {
     "@bugsnag/js": "^7.6.0",
     "@myrotvorets/envalidators": "^1.4.0",
-    "@myrotvorets/opentelemetry-configurator": "^1.1.4",
+    "@myrotvorets/opentelemetry-configurator": "^2.0.1",
     "@myrotvorets/opentelemetry-plugin-knex": "^0.6.0",
-    "@opentelemetry/api": "^0.17.0",
+    "@opentelemetry/api": "^0.18.0",
     "@opentelemetry/core": "^0.17.0",
     "@opentelemetry/semantic-conventions": "^0.17.0",
     "debug": "^4.3.2",
