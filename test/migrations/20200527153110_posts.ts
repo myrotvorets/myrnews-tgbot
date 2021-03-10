@@ -1,15 +1,15 @@
-import Knex from 'knex';
+import { Knex } from 'knex';
 
-export async function up(knex: Knex): Promise<void> {
-    await knex.schema.createTable('posts', function (table: Knex.CreateTableBuilder): void {
+export function up(db: Knex): Promise<unknown> {
+    return db.schema.createTable('posts', (table: Knex.CreateTableBuilder) => {
         table.bigIncrements('post_id');
     });
 }
 
-export async function down(knex: Knex): Promise<void> {
+export function down(knex: Knex): Promise<unknown> {
     if (process.env.NODE_ENV === 'production') {
         throw new Error('This is not meant to be run in the production environment');
     }
 
-    await knex.schema.dropTableIfExists('posts');
+    return knex.schema.dropTableIfExists('posts');
 }

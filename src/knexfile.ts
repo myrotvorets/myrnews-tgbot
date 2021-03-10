@@ -1,4 +1,4 @@
-import type { Client, Config } from 'knex';
+import type { Knex } from 'knex';
 import type { Database } from 'sqlite3';
 import { cleanEnv, str } from 'envalid';
 
@@ -11,7 +11,7 @@ const env = cleanEnv(process.env, {
     KNEX_PASSWORD: str({ default: '' }),
 });
 
-export function buildKnexConfig(): Config {
+export function buildKnexConfig(): Knex.Config {
     // eslint-disable-next-line sonarjs/no-small-switch
     switch (env.KNEX_DRIVER) {
         case 'sqlite3':
@@ -33,7 +33,7 @@ export function buildKnexConfig(): Config {
         case 'mariadb':
             return {
                 // eslint-disable-next-line @typescript-eslint/no-var-requires
-                client: require('knex-mariadb') as typeof Client,
+                client: require('knex-mariadb') as typeof Knex.Client,
                 asyncStackTraces: env.NODE_ENV === 'development',
                 connection: {
                     database: env.KNEX_DATABASE,

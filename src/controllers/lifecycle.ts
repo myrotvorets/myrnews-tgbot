@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import Bugsnag from '@bugsnag/js';
 import debug from 'debug';
-import knex from 'knex';
+import { Knex } from 'knex';
 import { Telegraf } from 'telegraf';
 import api, { context, setSpan } from '@opentelemetry/api';
 import { InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
@@ -14,7 +14,7 @@ import type { BotContext, PostData } from '../lib/types';
 const error = debug('bot:error');
 const dbg = debug('bot:debug');
 
-async function getNewPosts(baseUrl: string, db: knex): Promise<PostData[]> {
+async function getNewPosts(baseUrl: string, db: Knex): Promise<PostData[]> {
     const result: PostData[] = [];
     const posts = await getPosts(baseUrl);
     for (let i = posts.length - 1; i >= 0; --i) {
@@ -45,7 +45,7 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
                 await bot.telegram.sendMessage(chat, text, { parse_mode, reply_markup });
             }
 
-            await addPost(bot.context.db as knex, entry.id);
+            await addPost(bot.context.db as Knex, entry.id);
         } catch (e) {
             error(e);
             Bugsnag.notify(e);
@@ -59,7 +59,7 @@ export function lifecycle(env: Environment, bot: Telegraf<BotContext>): void {
         const span = tracer.startSpan('Get posts');
         void context.with(setSpan(context.active(), span), async () => {
             try {
-                const posts = await getNewPosts(env.NEWS_ENDPOINT, bot.context.db as knex);
+                const posts = await getNewPosts(env.NEWS_ENDPOINT, bot.context.db as Knex);
                 dbg('Got %d new posts', posts.length);
                 if (posts.length) {
                     await sendNewPosts(bot, env.CHAT_ID, posts);

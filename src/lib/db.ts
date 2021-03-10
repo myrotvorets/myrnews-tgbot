@@ -1,24 +1,24 @@
-import type knex from 'knex';
+import type { Knex } from 'knex';
 import type { Post, Reaction, UserReaction, UserReactionStats } from '../lib/types';
 
-export function addPost(db: knex, postId: number): Promise<number[]> {
+export function addPost(db: Knex, postId: number): Promise<number[]> {
     return db<Post>('posts').insert({ post_id: postId });
 }
 
-export async function checkPostExists(db: knex, postId: number): Promise<boolean> {
+export async function checkPostExists(db: Knex, postId: number): Promise<boolean> {
     const res = await db.select<Post>('post_id').from('posts').where('post_id', postId).first();
     return res !== undefined;
 }
 
-export function getReactions(db: knex, postId: number, userId: number): Promise<UserReaction | undefined> {
+export function getReactions(db: Knex, postId: number, userId: number): Promise<UserReaction | undefined> {
     return db.select<UserReaction>().from('reactions').where({ post_id: postId, user_id: userId }).forUpdate().first();
 }
 
-export function deleteReaction(db: knex, postId: number, userId: number): Promise<number> {
+export function deleteReaction(db: Knex, postId: number, userId: number): Promise<number> {
     return db<UserReaction>('reactions').where({ post_id: postId, user_id: userId }).delete();
 }
 
-export function addReaction(db: knex, postId: number, userId: number, reaction: Reaction): Promise<number[]> {
+export function addReaction(db: Knex, postId: number, userId: number, reaction: Reaction): Promise<number[]> {
     return db<UserReaction>('reactions').insert({
         post_id: postId,
         user_id: userId,
@@ -29,7 +29,7 @@ export function addReaction(db: knex, postId: number, userId: number, reaction: 
     });
 }
 
-export function react(db: knex, postId: number, userId: number, reaction: Reaction): Promise<unknown> {
+export function react(db: Knex, postId: number, userId: number, reaction: Reaction): Promise<unknown> {
     return db.transaction(
         async (trx): Promise<void> => {
             const r = await getReactions(trx, postId, userId);
@@ -51,7 +51,7 @@ export function react(db: knex, postId: number, userId: number, reaction: Reacti
     );
 }
 
-export async function getPostStats(db: knex, postId: number): Promise<UserReactionStats> {
+export async function getPostStats(db: Knex, postId: number): Promise<UserReactionStats> {
     return {
         likes: 0,
         hearts: 0,

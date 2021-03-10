@@ -1,5 +1,5 @@
 import path from 'path';
-import knex from 'knex';
+import knex, { Knex } from 'knex';
 import { buildKnexConfig } from '../src/knexfile';
 import type { Post, Reaction, UserReaction } from '../src/lib/types';
 import {
@@ -24,7 +24,7 @@ beforeAll(
 afterAll(() => db.destroy());
 
 describe('addPost()', (): void => {
-    let trx: knex.Transaction;
+    let trx: Knex.Transaction;
 
     beforeEach(
         async (): Promise<void> => {
@@ -75,7 +75,7 @@ describe('getReactions()', (): void => {
 });
 
 describe('deleteReaction()', (): void => {
-    let trx: knex.Transaction;
+    let trx: Knex.Transaction;
 
     beforeEach(
         async (): Promise<void> => {
@@ -95,7 +95,7 @@ describe('deleteReaction()', (): void => {
 });
 
 describe('addReaction()', (): void => {
-    let trx: knex.Transaction;
+    let trx: Knex.Transaction;
 
     beforeEach(
         async (): Promise<void> => {
@@ -121,7 +121,7 @@ describe('addReaction()', (): void => {
 });
 
 describe('react()', (): void => {
-    let trx: knex.Transaction;
+    let trx: Knex.Transaction;
 
     beforeEach(
         async (): Promise<void> => {

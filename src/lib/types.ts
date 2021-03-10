@@ -1,4 +1,4 @@
-import type knex from 'knex';
+import type { Knex } from 'knex';
 import type { Context } from 'telegraf';
 
 export interface Post {
@@ -38,5 +38,5 @@ export interface PostData {
 export type Reaction = 'L' | 'H' | 'S' | 'B';
 
 export interface BotContext extends Context {
-    db: knex;
+    db: Knex;
 }

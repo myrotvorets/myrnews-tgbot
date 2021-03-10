@@ -1,7 +1,7 @@
-import Knex from 'knex';
+import { Knex } from 'knex';
 
-export async function up(knex: Knex): Promise<void> {
-    await knex.schema.createTable('reactions', function (table: Knex.CreateTableBuilder): void {
+export function up(knex: Knex): Promise<unknown> {
+    return knex.schema.createTable('reactions', (table: Knex.CreateTableBuilder) => {
         table.bigInteger('post_id').notNullable();
         table.bigInteger('user_id').notNullable();
         table.integer('like').notNullable();
@@ -14,10 +14,10 @@ export async function up(knex: Knex): Promise<void> {
     });
 }
 
-export async function down(knex: Knex): Promise<void> {
+export function down(knex: Knex): Promise<unknown> {
     if (process.env.NODE_ENV === 'production') {
         throw new Error('This is not meant to be run in the production environment');
     }
 
-    await knex.schema.dropTableIfExists('reactions');
+    return knex.schema.dropTableIfExists('reactions');
 }
