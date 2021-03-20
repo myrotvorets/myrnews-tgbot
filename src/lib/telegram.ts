@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import debug from 'debug';
 import Bugsnag from '@bugsnag/js';
-import type { InlineKeyboardMarkup, Message } from 'telegraf/typings/telegram-types';
+import type { InlineKeyboardMarkup, Message } from 'typegram';
 import type { BotContext } from '../lib/types';
 import { buildInlineKeyboardFromMarkup } from './utils';
 import { getPostStats } from './db';

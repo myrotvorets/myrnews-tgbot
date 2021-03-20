@@ -4,7 +4,7 @@ import debug from 'debug';
 import { Knex } from 'knex';
 import { Telegraf } from 'telegraf';
 import api, { context, setSpan } from '@opentelemetry/api';
-import { InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
+import { InlineKeyboardMarkup } from 'typegram';
 import { addPost, checkPostExists } from '../lib/db';
 import { Environment } from '../lib/environment';
 import { buildInlineKeyboardFromPost, generateDescription } from '../lib/utils';

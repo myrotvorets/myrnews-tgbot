@@ -4,7 +4,7 @@ import type Telegraf from 'telegraf';
 import shimmer from 'shimmer';
 import path from 'path';
 import { ServerResponse } from 'http';
-import { Update } from 'telegraf/typings/telegram-types';
+import { Update } from 'typegram';
 
 interface IPackage {
     name: string;

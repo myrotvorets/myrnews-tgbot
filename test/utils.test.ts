@@ -1,4 +1,4 @@
-import { InlineKeyboardButton, InlineKeyboardMarkup } from 'telegraf/typings/telegram-types';
+import { InlineKeyboardButton, InlineKeyboardMarkup } from 'typegram';
 import { buildInlineKeyboardFromMarkup, buildInlineKeyboardFromPost, generateDescription } from '../src/lib/utils';
 import type { PostData, UserReactionStats } from '../src/lib/types';
 
