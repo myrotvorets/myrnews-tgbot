@@ -43,7 +43,7 @@ export async function startBugsnag(env: Environment): Promise<void> {
 
     if (env.BUGSNAG_API_KEY) {
         Bugsnag.start({
-            apiKey: env.BUGSNAG_API_KEY || '',
+            apiKey: env.BUGSNAG_API_KEY,
             appVersion: version,
             appType: 'bot',
             releaseStage: process.env.NODE_ENV || 'development',
