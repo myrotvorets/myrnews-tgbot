@@ -46,7 +46,7 @@ function processOne(this: BotContext): void {
     dbg('About to process %d', postId);
 
     getPostStats(this.db, +postId)
-        .then((stats): void => {
+        .then((stats) => {
             dbg('Stats for post %d: %o', +postId, stats);
             delete queue[postId];
 
@@ -54,7 +54,8 @@ function processOne(this: BotContext): void {
             const newMarkup = { inline_keyboard: buildInlineKeyboardFromMarkup(oldMarkup, stats, +postId) };
             item.reply_markup = newMarkup;
 
-            this.telegram
+            // eslint-disable-next-line promise/no-nesting
+            return this.telegram
                 .callApi('editMessageReplyMarkup', item)
                 .then((): unknown => setImmediate(processOne.bind(this)))
                 .catch((e: Error): void => {

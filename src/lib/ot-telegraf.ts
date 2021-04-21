@@ -65,11 +65,11 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
                 original.apply(this, [update, ...params]).then(
                     (result) => {
                         span.setStatus({ code: SpanStatusCode.OK }).end();
-                        return Promise.resolve(result);
+                        return result;
                     },
                     (error) => {
                         span.setStatus({ code: SpanStatusCode.ERROR }).end();
-                        return Promise.reject(error);
+                        throw error;
                     },
                 ),
             );
