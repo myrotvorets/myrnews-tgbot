@@ -1,58 +1,51 @@
 import { SpanStatusCode, context, setSpan } from '@opentelemetry/api';
-import { BasePlugin } from '@opentelemetry/core';
 import type Telegraf from 'telegraf';
-import shimmer from 'shimmer';
-import path from 'path';
 import { ServerResponse } from 'http';
 import { Update } from 'typegram';
+import {
+    InstrumentationBase,
+    InstrumentationModuleDefinition,
+    InstrumentationNodeModuleDefinition,
+    InstrumentationNodeModuleFile,
+} from '@opentelemetry/instrumentation';
+import { isWrapped } from '@opentelemetry/core';
 
-interface IPackage {
-    name: string;
-    version: string;
-}
-
-const telegrafBaseDir = path.dirname(path.dirname(require.resolve('telegraf')));
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const telegrafVersion = (require(path.join(telegrafBaseDir, 'package.json')) as IPackage).version;
-
-export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
+export class TelegrafPlugin extends InstrumentationBase<typeof Telegraf> {
     public readonly supportedVersions = ['4.*'];
     public static readonly COMPONENT = 'telegraf';
 
-    protected readonly _basedir = telegrafBaseDir;
-    protected _internalFilesList = {
-        '*': {
-            telegraf: 'lib/telegraf',
-        },
-    };
-
-    private enabled = false;
-
-    public constructor(public readonly moduleName: string, public readonly version: string) {
+    public constructor() {
         super('@myrotvorets/opentelemetry-plugin-telegraf', '1.0.0');
     }
 
-    protected patch(): typeof Telegraf {
-        // istanbul ignore else
-        if (!this.enabled && this._internalFilesExports.telegraf) {
-            const proto = (this._internalFilesExports.telegraf as Record<string, ObjectConstructor>).Telegraf
-                .prototype as Telegraf.Telegraf;
-            shimmer.wrap(proto, 'handleUpdate', this.patchHandleUpdate);
+    protected init(): InstrumentationModuleDefinition<typeof Telegraf>[] {
+        return [
+            new InstrumentationNodeModuleDefinition<typeof Telegraf>(
+                'telegraf',
+                this.supportedVersions,
+                undefined,
+                undefined,
+                [
+                    new InstrumentationNodeModuleFile<typeof Telegraf.Telegraf>(
+                        'telegraf/lib/telegraf.js',
+                        this.supportedVersions,
+                        (moduleExports) => {
+                            // eslint-disable-next-line @typescript-eslint/unbound-method
+                            if (!isWrapped(moduleExports.prototype.handleUpdate)) {
+                                this._wrap(moduleExports.prototype, 'handleUpdate', this.patchHandleUpdate);
+                            }
 
-            this.enabled = true;
-        }
-
-        return this._moduleExports;
-    }
-
-    protected unpatch(): void {
-        // istanbul ignore else
-        if (this.enabled && this._internalFilesExports.telegraf) {
-            const proto = (this._internalFilesExports.telegraf as Record<string, ObjectConstructor>).Telegraf
-                .prototype as Telegraf.Telegraf;
-            shimmer.massUnwrap([proto], ['handleUpdate']);
-            this.enabled = false;
-        }
+                            return moduleExports;
+                        },
+                        (moduleExports) => {
+                            if (moduleExports) {
+                                this._unwrap(moduleExports.prototype, 'handleUpdate');
+                            }
+                        },
+                    ),
+                ],
+            ),
+        ];
     }
 
     private readonly patchHandleUpdate = (
@@ -60,7 +53,7 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
     ): typeof original => {
         const self = this;
         return function handleUpdate(this: typeof Telegraf, update: Update, ...params): ReturnType<typeof original> {
-            const span = self._tracer.startSpan(`telegraf.handleUpdate(${update.update_id})`);
+            const span = self.tracer.startSpan(`telegraf.handleUpdate(${update.update_id})`);
             return context.with(setSpan(context.active(), span), () =>
                 original.apply(this, [update, ...params]).then(
                     (result) => {
@@ -76,5 +69,3 @@ export class TelegrafPlugin extends BasePlugin<typeof Telegraf> {
         };
     };
 }
-
-export const plugin = new TelegrafPlugin(TelegrafPlugin.COMPONENT, telegrafVersion);
