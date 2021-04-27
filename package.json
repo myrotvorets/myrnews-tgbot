@@ -35,7 +35,7 @@
     "node-fetch": "^2.6.1",
     "shimmer": "^1.2.1",
     "telegraf": "^4.3.0",
-    "typegram": "^3.2.3"
+    "typegram": "^3.3.1"
   },
   "devDependencies": {
     "@myrotvorets/eslint-config-myrotvorets-ts": "^2.2.5",
