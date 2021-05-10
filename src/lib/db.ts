@@ -30,25 +30,23 @@ export function addReaction(db: Knex, postId: number, userId: number, reaction: 
 }
 
 export function react(db: Knex, postId: number, userId: number, reaction: Reaction): Promise<unknown> {
-    return db.transaction(
-        async (trx): Promise<void> => {
-            const r = await getReactions(trx, postId, userId);
-            if (r) {
-                await deleteReaction(trx, postId, userId);
-            }
+    return db.transaction(async (trx): Promise<void> => {
+        const r = await getReactions(trx, postId, userId);
+        if (r) {
+            await deleteReaction(trx, postId, userId);
+        }
 
-            const shouldUpdate =
-                !r ||
-                (r.like && 'L' !== reaction) ||
-                (r.heart && 'H' !== reaction) ||
-                (r.ship && 'S' !== reaction) ||
-                (r.skull && 'B' !== reaction);
+        const shouldUpdate =
+            !r ||
+            (r.like && 'L' !== reaction) ||
+            (r.heart && 'H' !== reaction) ||
+            (r.ship && 'S' !== reaction) ||
+            (r.skull && 'B' !== reaction);
 
-            if (shouldUpdate) {
-                await addReaction(trx, postId, userId, reaction);
-            }
-        },
-    );
+        if (shouldUpdate) {
+            await addReaction(trx, postId, userId, reaction);
+        }
+    });
 }
 
 export async function getPostStats(db: Knex, postId: number): Promise<UserReactionStats> {

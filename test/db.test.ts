@@ -26,11 +26,9 @@ afterAll(() => db.destroy());
 describe('addPost()', (): void => {
     let trx: Knex.Transaction;
 
-    beforeEach(
-        async (): Promise<void> => {
-            trx = await db.transaction();
-        },
-    );
+    beforeEach(async (): Promise<void> => {
+        trx = await db.transaction();
+    });
 
     it('should insert a new row', async (): Promise<unknown> => {
         await addPost(trx, 1);
@@ -55,21 +53,17 @@ describe('checkPostExists()', (): void => {
 describe('getReactions()', (): void => {
     it('should return undefined when (user_id, post_id) pair does not exist', (): Promise<unknown> => {
         return expect(
-            db.transaction(
-                (trx): Promise<unknown> => {
-                    return getReactions(trx, 0, 0);
-                },
-            ),
+            db.transaction((trx): Promise<unknown> => {
+                return getReactions(trx, 0, 0);
+            }),
         ).resolves.toBeUndefined();
     });
 
     it('should return (user_id, post_id) when a reaction exists', (): Promise<unknown> => {
         return expect(
-            db.transaction(
-                (trx): Promise<unknown> => {
-                    return getReactions(trx, 43045, 1);
-                },
-            ),
+            db.transaction((trx): Promise<unknown> => {
+                return getReactions(trx, 43045, 1);
+            }),
         ).resolves.toEqual({ post_id: 43045, user_id: 1, like: 0, heart: 0, ship: 0, skull: 1 });
     });
 });
@@ -77,11 +71,9 @@ describe('getReactions()', (): void => {
 describe('deleteReaction()', (): void => {
     let trx: Knex.Transaction;
 
-    beforeEach(
-        async (): Promise<void> => {
-            trx = await db.transaction();
-        },
-    );
+    beforeEach(async (): Promise<void> => {
+        trx = await db.transaction();
+    });
 
     it('should delete the matching row', async (): Promise<unknown> => {
         const n = await deleteReaction(trx, 43045, 1);
@@ -97,11 +89,9 @@ describe('deleteReaction()', (): void => {
 describe('addReaction()', (): void => {
     let trx: Knex.Transaction;
 
-    beforeEach(
-        async (): Promise<void> => {
-            trx = await db.transaction();
-        },
-    );
+    beforeEach(async (): Promise<void> => {
+        trx = await db.transaction();
+    });
 
     it('should insert a new row', async (): Promise<unknown> => {
         await addReaction(trx, 43045, 5, 'L');
@@ -123,11 +113,9 @@ describe('addReaction()', (): void => {
 describe('react()', (): void => {
     let trx: Knex.Transaction;
 
-    beforeEach(
-        async (): Promise<void> => {
-            trx = await db.transaction();
-        },
-    );
+    beforeEach(async (): Promise<void> => {
+        trx = await db.transaction();
+    });
 
     it.each<Reaction[]>([['L'], ['H'], ['S'], ['B']])(
         'should insert a new row if there is no reaction for (user_id, post_id) (%s)',
