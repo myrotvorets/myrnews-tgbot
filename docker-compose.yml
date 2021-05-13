@@ -4,7 +4,7 @@ version: '3.0'
 services:
   bot:
     image: node:lts-slim
-    volumes: 
+    volumes:
       - './:/src/bot'
     working_dir: /src/bot
     command: npm run nodemon
