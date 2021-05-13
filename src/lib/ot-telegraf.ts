@@ -10,9 +10,10 @@ import {
 } from '@opentelemetry/instrumentation';
 import { isWrapped } from '@opentelemetry/core';
 
-export class TelegrafPlugin extends InstrumentationBase<typeof Telegraf> {
-    public readonly supportedVersions = ['4.*'];
+export class TelegrafInstrumentation extends InstrumentationBase<typeof Telegraf> {
+    public static readonly supportedVersions = ['4.*'];
     public static readonly COMPONENT = 'telegraf';
+    public readonly x = 1;
 
     public constructor() {
         super('@myrotvorets/opentelemetry-plugin-telegraf', '1.0.0');
@@ -22,24 +23,24 @@ export class TelegrafPlugin extends InstrumentationBase<typeof Telegraf> {
         return [
             new InstrumentationNodeModuleDefinition<typeof Telegraf>(
                 'telegraf',
-                this.supportedVersions,
+                TelegrafInstrumentation.supportedVersions,
                 undefined,
                 undefined,
                 [
-                    new InstrumentationNodeModuleFile<typeof Telegraf.Telegraf>(
+                    new InstrumentationNodeModuleFile<typeof Telegraf>(
                         'telegraf/lib/telegraf.js',
-                        this.supportedVersions,
+                        TelegrafInstrumentation.supportedVersions,
                         (moduleExports) => {
                             // eslint-disable-next-line @typescript-eslint/unbound-method
-                            if (!isWrapped(moduleExports.prototype.handleUpdate)) {
-                                this._wrap(moduleExports.prototype, 'handleUpdate', this.patchHandleUpdate);
+                            if (!isWrapped(moduleExports.Telegraf.prototype.handleUpdate)) {
+                                this._wrap(moduleExports.Telegraf.prototype, 'handleUpdate', this.patchHandleUpdate);
                             }
 
                             return moduleExports;
                         },
                         (moduleExports) => {
                             if (moduleExports) {
-                                this._unwrap(moduleExports.prototype, 'handleUpdate');
+                                this._unwrap(moduleExports.Telegraf.prototype, 'handleUpdate');
                             }
                         },
                     ),
