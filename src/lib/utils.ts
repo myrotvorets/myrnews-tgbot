@@ -1,5 +1,5 @@
-import type { InlineKeyboardButton, InlineKeyboardMarkup } from 'typegram';
 import { Markup } from 'telegraf';
+import type { InlineKeyboardButton, InlineKeyboardMarkup } from 'typegram';
 import type { PostData, UserReactionStats } from '../lib/types';
 
 export const TEXT_LIKE = '👍';

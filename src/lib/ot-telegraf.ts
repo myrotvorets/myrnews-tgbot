@@ -1,5 +1,4 @@
 import { SpanStatusCode, context, setSpan } from '@opentelemetry/api';
-import type Telegraf from 'telegraf';
 import { ServerResponse } from 'http';
 import { Update } from 'typegram';
 import {
@@ -9,6 +8,7 @@ import {
     InstrumentationNodeModuleFile,
 } from '@opentelemetry/instrumentation';
 import { isWrapped } from '@opentelemetry/core';
+import type Telegraf from 'telegraf';
 
 export class TelegrafInstrumentation extends InstrumentationBase<typeof Telegraf> {
     public static readonly supportedVersions = ['4.*'];
