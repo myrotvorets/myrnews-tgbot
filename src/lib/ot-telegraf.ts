@@ -1,4 +1,4 @@
-import { SpanStatusCode, context, setSpan } from '@opentelemetry/api';
+import { SpanStatusCode, context, trace } from '@opentelemetry/api';
 import { ServerResponse } from 'http';
 import { Update } from 'typegram';
 import {
@@ -55,7 +55,7 @@ export class TelegrafInstrumentation extends InstrumentationBase<typeof Telegraf
         const self = this;
         return function handleUpdate(this: typeof Telegraf, update: Update, ...params): ReturnType<typeof original> {
             const span = self.tracer.startSpan(`telegraf.handleUpdate(${update.update_id})`);
-            return context.with(setSpan(context.active(), span), () =>
+            return context.with(trace.setSpan(context.active(), span), () =>
                 original.apply(this, [update, ...params]).then(
                     (result) => {
                         span.setStatus({ code: SpanStatusCode.OK }).end();
