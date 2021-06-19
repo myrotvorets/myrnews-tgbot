@@ -14,7 +14,7 @@
     "test": "jest",
     "posttest": "npm run build",
     "preversion": "npm test",
-    "postinstall": "husky install"
+    "postinstall": "husky install || true"
   },
   "main": "./dist/index.js",
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",

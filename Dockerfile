@@ -18,6 +18,7 @@ RUN \
         eslint @myrotvorets/eslint-config-myrotvorets-ts @typescript-eslint/eslint-plugin eslint-plugin-import eslint-plugin-prettier prettier eslint-plugin-sonarjs eslint-plugin-jest \
         @types/jest jest ts-jest merge jest-sonar-reporter \
         nodemon husky lint-staged sqlite3 && \
+    npm set-script postinstall "" &&
     npm ci --ignore-scripts --no-audit --no-fund && \
     rm -f .npmrc && \
     npm rebuild && \
