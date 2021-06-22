@@ -31,7 +31,7 @@
     "envalid": "^7.0.0",
     "knex": "^0.95.5",
     "knex-mariadb": "^2.0.0",
-    "mariadb": "^2.5.2",
+    "mariadb": "^2.5.4",
     "node-fetch": "^2.6.1",
     "telegraf": "^4.3.0",
     "typegram": "^3.2.3"
