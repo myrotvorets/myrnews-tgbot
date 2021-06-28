@@ -20,7 +20,7 @@
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
   "license": "MIT",
   "dependencies": {
-    "@bugsnag/js": "^7.6.0",
+    "@bugsnag/js": "^7.10.4",
     "@myrotvorets/envalidators": "^1.4.0",
     "@myrotvorets/opentelemetry-configurator": "^2.0.1",
     "@myrotvorets/opentelemetry-plugin-knex": "^0.14.0",
