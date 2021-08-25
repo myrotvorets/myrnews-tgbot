@@ -3,7 +3,7 @@ import Bugsnag from '@bugsnag/js';
 import debug from 'debug';
 import { Knex } from 'knex';
 import { Telegraf } from 'telegraf';
-import api, { context, trace } from '@opentelemetry/api';
+import { context, trace } from '@opentelemetry/api';
 import { InlineKeyboardMarkup } from 'typegram';
 import { addPost, checkPostExists } from '../lib/db';
 import { Environment } from '../lib/environment';
@@ -55,7 +55,7 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
 
 export function lifecycle(env: Environment, bot: Telegraf<BotContext>): void {
     const inner = (): void => {
-        const tracer = api.trace.getTracer('tracer');
+        const tracer = trace.getTracer('tracer');
         const span = tracer.startSpan('Get posts');
         void context.with(trace.setSpan(context.active(), span), async () => {
             try {
