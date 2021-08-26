@@ -42,6 +42,9 @@ import { startBugsnag } from './lib/bugsnag';
     } catch (e) {
         console.error(e);
         Bugsnag.notify(e as Error);
-        process.exit(1);
+        //        process.exit(1);
+        setInterval(() => {
+            /* empty*/
+        }, 3600000);
     }
 })().catch((e) => console.error(e));
