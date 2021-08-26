@@ -27,6 +27,6 @@ export async function queryCallbackHandler(context: BotContext): Promise<void> {
         editMessageReplyMarkup(context, pid);
     } catch (e) {
         error(e);
-        Bugsnag.notify(e);
+        Bugsnag.notify(e as Error);
     }
 }

@@ -48,7 +48,7 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
             await addPost(bot.context.db as Knex, entry.id);
         } catch (e) {
             error(e);
-            Bugsnag.notify(e);
+            Bugsnag.notify(e as Error);
         }
     }
 }
@@ -66,7 +66,7 @@ export function lifecycle(env: Environment, bot: Telegraf<BotContext>): void {
                 }
             } catch (e) {
                 error(e);
-                Bugsnag.notify(e);
+                Bugsnag.notify(e as Error);
             } finally {
                 span.end();
             }
