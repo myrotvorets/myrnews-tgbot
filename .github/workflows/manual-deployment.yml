@@ -34,7 +34,7 @@ jobs:
           environment: production
 
       - name: Deploy
-        uses: myrotvorets/kubectl-action@1.0.5
+        uses: myrotvorets/kubectl-action@2.0.0
         with:
           config: ${{ secrets.KUBE_CONFIG_DATA }}
           version: 1.21
