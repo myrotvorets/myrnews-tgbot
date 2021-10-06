@@ -24,7 +24,7 @@ RUN \
     npm rebuild && \
     npm run prepare --if-present
 COPY --chown=nobody:nobody ./src ./src
-RUN npm run build -- --declaration false
+RUN npm run build -- --declaration false --removeComments true --sourceMap false
 
 FROM myrotvorets/node-min
 USER root

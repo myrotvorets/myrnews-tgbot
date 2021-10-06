@@ -3,7 +3,7 @@
         "target": "es2020",
         "module": "CommonJS",
         "outDir": "./dist",
-        "sourceMap": false,
+        "sourceMap": true,
         "declaration": false,
         "strict": true,
         "noUnusedLocals": true,
@@ -11,6 +11,7 @@
         "noFallthroughCasesInSwitch": true,
         "esModuleInterop": true,
         "resolveJsonModule": false,
+        "removeComments": false,
         "typeRoots": [
             "./node_modules/@types/"
         ]
