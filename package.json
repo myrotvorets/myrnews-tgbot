@@ -47,7 +47,7 @@
     "eslint-formatter-gha": "^1.2.0",
     "husky": "^7.0.0",
     "jest": "^27.0.1",
-    "lint-staged": "^11.0.0",
+    "lint-staged": "^11.2.3",
     "merge": "^2.1.1",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
