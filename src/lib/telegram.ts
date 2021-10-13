@@ -84,7 +84,7 @@ function processOne(this: BotContext): void {
                     notify(e);
                 });
         })
-        .catch((e) => notify(e));
+        .catch((e: Error) => notify(e));
 }
 
 export function editMessageReplyMarkup(context: BotContext, postId: number): void {
