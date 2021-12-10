@@ -1,5 +1,5 @@
 import * as f from 'node-fetch';
-import fetch from 'node-fetch';
+import fetch from 'node-fetch'; // NOSONAR
 import { getFeaturedImageResponse, getFeaturedImageResponseBadURL } from './fixtures/featuredimage';
 import { getFeaturedImageUrl, getPosts } from '../src/lib/wpapi';
 import { getPostsResponse } from './fixtures/posts';
