@@ -32,7 +32,7 @@
     "knex": "^0.95.5",
     "knex-mariadb": "^2.0.0",
     "mariadb": "^2.5.2",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.0.0",
     "telegraf": "^4.3.0",
     "typegram": "^3.5.1"
   },
@@ -41,7 +41,7 @@
     "@types/debug": "^4.1.5",
     "@types/jest": "^27.0.1",
     "@types/node": ">= 12",
-    "@types/node-fetch": "^2.5.8",
+    "@types/node-fetch": "^3.0.0",
     "@types/sqlite3": "^3.1.7",
     "eslint-formatter-gha": "^1.2.0",
     "husky": "^7.0.0",
