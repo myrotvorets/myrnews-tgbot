@@ -1,14 +1,13 @@
-import * as f from 'node-fetch';
-import fetch from 'node-fetch'; // NOSONAR
+import * as f from 'fetch-h2';
 import { getFeaturedImageResponse, getFeaturedImageResponseBadURL } from './fixtures/featuredimage';
 import { getFeaturedImageUrl, getPosts } from '../src/lib/wpapi';
 import { getPostsResponse } from './fixtures/posts';
 import type { PostData } from '../src/lib/types';
 
-jest.mock('node-fetch');
+jest.mock('fetch-h2');
 
-const mockedFetch = fetch as jest.MockedFunction<typeof fetch>;
-const { Response } = jest.requireActual<typeof f>('node-fetch');
+const mockedFetch = f.fetch as jest.MockedFunction<typeof f.fetch>;
+const { Response } = jest.requireActual<typeof f>('fetch-h2');
 
 describe('getPosts', () => {
     it('should properly extract data', () => {
