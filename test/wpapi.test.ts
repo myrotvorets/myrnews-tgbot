@@ -6,7 +6,7 @@ import type { PostData } from '../src/lib/types';
 
 jest.mock('fetch-h2');
 
-const mockedFetch = f.fetch as jest.MockedFunction<typeof f.fetch>;
+const mockedFetch = f.fetch as jest.MockedFunction<typeof f.fetch>; // NOSONAR
 const { Response } = jest.requireActual<typeof f>('fetch-h2');
 
 describe('getPosts', () => {
