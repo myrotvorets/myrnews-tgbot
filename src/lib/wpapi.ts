@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import { fetch } from 'fetch-h2';
 import type { PostData } from '../lib/types';
 
 interface WPPost {
