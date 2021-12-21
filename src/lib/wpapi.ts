@@ -1,4 +1,4 @@
-import { fetch } from 'fetch-h2';
+import { fetch } from '@adobe/helix-fetch';
 import type { PostData } from '../lib/types';
 
 interface WPPost {
@@ -20,7 +20,7 @@ interface WPMedia {
 }
 
 async function get<T>(url: string): Promise<T> {
-    const raw = await fetch(url);
+    const raw = await fetch(url, {});
     return (await raw.json()) as T;
 }
 

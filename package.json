@@ -20,6 +20,7 @@
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
   "license": "MIT",
   "dependencies": {
+    "@adobe/helix-fetch": "github:adobe/helix-fetch#cb78cbb87f75cbf5b65c800d372d06ae91fa75ff",
     "@bugsnag/js": "^7.6.0",
     "@myrotvorets/envalidators": "^1.4.0",
     "@myrotvorets/opentelemetry-configurator": "^2.0.1",
@@ -29,7 +30,6 @@
     "@opentelemetry/instrumentation": "^0.27.0",
     "debug": "^4.3.1",
     "envalid": "^7.0.0",
-    "fetch-h2": "^3.0.1",
     "knex": "^0.95.5",
     "knex-mariadb": "^2.0.0",
     "mariadb": "^2.5.2",
