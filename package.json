@@ -20,7 +20,7 @@
   "author": "Myrotvorets <support@myrotvorets.center> (https://myrotvorets.center/)",
   "license": "MIT",
   "dependencies": {
-    "@adobe/helix-fetch": "github:adobe/helix-fetch#70231e609eca0af4fbb9cf25cf3a956161362700",
+    "@adobe/helix-fetch": "github:adobe/helix-fetch#952a0bab0f6f14c14863ff809ac617e2d2cfea10",
     "@bugsnag/js": "^7.6.0",
     "@myrotvorets/envalidators": "^1.4.0",
     "@myrotvorets/opentelemetry-configurator": "^2.0.1",
