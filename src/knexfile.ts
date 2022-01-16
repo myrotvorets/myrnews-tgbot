@@ -1,6 +1,6 @@
 import { cleanEnv, str } from 'envalid';
 import type { Knex } from 'knex';
-import type { Database } from 'sqlite3';
+import type { Database } from '@vscode/sqlite3';
 
 const env = cleanEnv(process.env, {
     NODE_ENV: str({ default: 'development' }),
