@@ -3,7 +3,7 @@ version: '3.0'
 
 services:
   bot:
-    image: node:lts-slim
+    image: node:lts-slim@sha256:158eb4c4873c6ec690d6a556558aa78298ae4016040dfd3c759a23ba5ca20fb6
     volumes:
       - './:/src/bot'
     working_dir: /src/bot
@@ -14,4 +14,4 @@ services:
       - zipkin
 
   zipkin:
-    image: openzipkin/zipkin
+    image: openzipkin/zipkin@sha256:b3435e485f1e73266dba48ae56814c6731ffb76563a0b809456876f29a575f6b
