@@ -18,7 +18,7 @@ jobs:
       head_tag: ${{ steps.head_tag.outputs.head_tag }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2.4.0
 
       - name: Retrieve tags
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
@@ -39,10 +39,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2.4.0
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.1
+        uses: actions/setup-node@1f8c6b94b26d0feae1e387ca63ccbdc44d27b561 # renovate: tag=v2.5.1
         with:
           node-version: ${{ matrix.node_version }}
           registry-url: https://npm.pkg.github.com
@@ -60,7 +60,7 @@ jobs:
         run: npm test
 
       - name: Trigger Docker build
-        uses: myrotvorets/trigger-repository-dispatch-action@1.1.1
+        uses: myrotvorets/trigger-repository-dispatch-action@b0fffc6d88d16c090016b4416140d6c85c56f6d4 # renovate: tag=1.1.1
         with:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
           type: tests-passed
