@@ -17,3 +17,6 @@ resources:
   - "service.yaml"
   - "certificate.yaml"
   - "ingress.yaml"
+
+patchesStrategicMerge:
+  - 'patch-image-version.yaml'
