@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2.4.0
+        uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # tag=v3.0.1
 
       - name: Prepare the files
         uses: myrotvorets/composite-actions/prepare-k8s-deployment@master
