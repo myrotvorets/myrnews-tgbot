@@ -32,7 +32,7 @@
     "envalid": "^7.0.0",
     "knex": "^1.0.0",
     "knex-mariadb": "^2.0.0",
-    "mariadb": "^2.5.2",
+    "mariadb": "^3.0.0",
     "telegraf": "^4.3.0",
     "typegram": "^3.5.1"
   },
