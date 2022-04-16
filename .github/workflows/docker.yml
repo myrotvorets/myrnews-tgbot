@@ -43,7 +43,7 @@ jobs:
           default_branch: ${{ github.event.repository.default_branch }}
 
       - name: Login to DockerHub
-        uses: docker/login-action@6af3c118c8376c675363897acf1757f7a9be6583 # tag=v1.13.0
+        uses: docker/login-action@dd4fa0671be5250ee6f50aedf4cb05514abda2c7 # tag=v1.14.1
         if: ${{ env.EVENT != 'pull_request' }}
         with:
           username: ${{ secrets.DOCKER_LOGIN }}
