@@ -22,7 +22,7 @@
   "dependencies": {
     "@adobe/helix-fetch": "^3.0.3",
     "@bugsnag/js": "^7.6.0",
-    "@myrotvorets/envalidators": "^1.4.0",
+    "@myrotvorets/envalidators": "^2.0.0",
     "@myrotvorets/opentelemetry-configurator": "^2.0.1",
     "@myrotvorets/opentelemetry-plugin-knex": "^0.20.0",
     "@opentelemetry/api": "^1.0.1",
