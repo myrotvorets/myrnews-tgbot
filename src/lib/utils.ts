@@ -16,7 +16,7 @@ export function buildInlineKeyboardFromPost({ id, link }: PostData): InlineKeybo
             Markup.button.callback(TEXT_SHIP, `S:${id}`),
             Markup.button.callback(TEXT_SKULL, `B:${id}`),
         ],
-    ];
+    ] as InlineKeyboardButton[][];
 }
 
 export function buildInlineKeyboardFromMarkup(
@@ -32,7 +32,7 @@ export function buildInlineKeyboardFromMarkup(
             Markup.button.callback(ships ? `${TEXT_SHIP} ×${ships}` : `${TEXT_SHIP}`, `S:${postId}`),
             Markup.button.callback(skulls ? `${TEXT_SKULL} ×${skulls}` : `${TEXT_SKULL}`, `B:${postId}`),
         ],
-    ];
+    ] as InlineKeyboardButton[][];
 }
 
 export function generateDescription({ link, title, excerpt }: PostData): string {
