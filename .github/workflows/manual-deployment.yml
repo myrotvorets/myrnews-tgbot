@@ -34,7 +34,7 @@ jobs:
           environment: production
 
       - name: Deploy
-        uses: myrotvorets/kubectl-action@ce0afcfd980b4b1e9f04972087b752d319c26d7e # renovate: tag=2.0.0
+        uses: myrotvorets/kubectl-action@49846ef8e3f63df58b7def8a792bbc7407859dd4 # tag=2.0.1
         with:
           config: ${{ secrets.KUBE_CONFIG_DATA }}
           version: 1.21
