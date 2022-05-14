@@ -11,6 +11,7 @@ export async function queryCallbackHandler(context: BotContext): Promise<void> {
     if (
         !context.callbackQuery ||
         !('data' in context.callbackQuery) ||
+        !context.callbackQuery.data ||
         !/^[LHSB]:\d+$/u.exec(context.callbackQuery.data)
     ) {
         warn('Bad input');
