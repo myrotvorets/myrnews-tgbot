@@ -11,6 +11,9 @@ on:
 env:
   IMAGE_NAME: myrotvorets/myrnews-tgbot
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest

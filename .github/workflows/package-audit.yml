@@ -11,6 +11,9 @@ on:
       - package-lock.json
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   audit-npm:
     name: NPM Audit
