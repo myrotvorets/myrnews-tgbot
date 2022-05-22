@@ -41,7 +41,7 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: chrnorm/deployment-status@598d987f3a8dec3817b995f810e6de7c06c92106 # renovate: tag=v1.0.0
+        uses: chrnorm/deployment-status@07b3930847f65e71c9c6802ff5a402f6dfb46b86 # tag=v2.0.0
         with:
           token: "${{ github.token }}"
           state: "success"
@@ -49,7 +49,7 @@ jobs:
 
       - name: Update deployment status (failure)
         if: failure()
-        uses: chrnorm/deployment-status@598d987f3a8dec3817b995f810e6de7c06c92106 # renovate: tag=v1.0.0
+        uses: chrnorm/deployment-status@07b3930847f65e71c9c6802ff5a402f6dfb46b86 # tag=v2.0.0
         with:
           token: "${{ github.token }}"
           state: "failure"
