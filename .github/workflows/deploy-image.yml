@@ -31,7 +31,7 @@ jobs:
           path: iac
 
       - name: Start deployment
-        uses: chrnorm/deployment-action@b11a06a2139d08ec1820b1e13efad139776155a6 # tag=v2.0.2
+        uses: chrnorm/deployment-action@1b599fe41a0ef1f95191e7f2eec4743f2d7dfc48 # tag=v2.0.3
         id: deployment
         with:
           token: "${{ github.token }}"
