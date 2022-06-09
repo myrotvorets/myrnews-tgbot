@@ -1,6 +1,6 @@
 import { cleanEnv, str } from 'envalid';
 import type { Knex } from 'knex';
-import type { Database } from '@vscode/sqlite3';
+import type { Database } from 'better-sqlite3';
 
 const env = cleanEnv(process.env, {
     NODE_ENV: str({ default: 'development' }),
@@ -16,7 +16,7 @@ export function buildKnexConfig(): Knex.Config {
     switch (env.KNEX_DRIVER) {
         case 'sqlite3':
             return {
-                client: 'sqlite3',
+                client: 'better-sqlite3',
                 asyncStackTraces: env.NODE_ENV === 'development',
                 useNullAsDefault: true,
                 connection: {
@@ -25,7 +25,10 @@ export function buildKnexConfig(): Knex.Config {
                 pool: {
                     // Override in order not to import extra types
                     // eslint-disable-next-line @typescript-eslint/ban-types
-                    afterCreate: (conn: Database, cb: Function): unknown => conn.run('PRAGMA foreign_keys = ON', cb),
+                    afterCreate: (conn: Database, cb: Function): void => {
+                        conn.exec('PRAGMA foreign_keys = ON');
+                        cb();
+                    },
                 },
             };
 
