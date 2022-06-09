@@ -5,10 +5,7 @@ on:
     paths:
       - package.json
       - package-lock.json
-  pull_request:
-    paths:
-      - package.json
-      - package-lock.json
+      - .github/workflows/package-audit.yml
   workflow_dispatch:
 
 permissions:
