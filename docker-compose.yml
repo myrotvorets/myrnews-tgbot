@@ -14,4 +14,4 @@ services:
       - zipkin
 
   zipkin:
-    image: openzipkin/zipkin@sha256:b3435e485f1e73266dba48ae56814c6731ffb76563a0b809456876f29a575f6b
+    image: openzipkin/zipkin@sha256:9a7dbc81516a15348a250225fb79cd60d0d9938f1a5373b2a0118ba8c828ffdf
