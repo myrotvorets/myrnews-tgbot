@@ -17,6 +17,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Set image creation timestamp
         run: echo TIMESTAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV

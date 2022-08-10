@@ -19,7 +19,9 @@ jobs:
       refkind: ${{ steps.kind.outputs.kind }}
       reference: ${{ github.event.client_payload.ref }}
       commit: ${{ github.event.client_payload.sha }}
-
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Set image creation timestamp
         run: echo TIMESTAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
