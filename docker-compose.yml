@@ -3,7 +3,7 @@ version: '3.0'
 
 services:
   bot:
-    image: node:lts-slim@sha256:b1c919a0df558951c358a3cd68df1698eec365000b188528cc86628bdf07056b
+    image: node:lts-slim@sha256:bd728768518439b05d355f58518a01b31a15f58381592e3ffa78e7939889f4f1
     volumes:
       - './:/src/bot'
     working_dir: /src/bot
