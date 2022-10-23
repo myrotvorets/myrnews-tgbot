@@ -46,7 +46,7 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: chrnorm/deployment-status@07b3930847f65e71c9c6802ff5a402f6dfb46b86 # tag=v2.0.0
+        uses: chrnorm/deployment-status@2afb7d27101260f4a764219439564d954d10b5b0 # tag=v2.0.1
         with:
           token: "${{ github.token }}"
           state: "success"
@@ -54,7 +54,7 @@ jobs:
 
       - name: Update deployment status (failure)
         if: failure()
-        uses: chrnorm/deployment-status@07b3930847f65e71c9c6802ff5a402f6dfb46b86 # tag=v2.0.0
+        uses: chrnorm/deployment-status@2afb7d27101260f4a764219439564d954d10b5b0 # tag=v2.0.1
         with:
           token: "${{ github.token }}"
           state: "failure"
