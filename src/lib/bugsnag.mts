@@ -1,10 +1,9 @@
-/* istanbul ignore file */
+import { readFile } from 'node:fs/promises';
+import bugsnag from '@bugsnag/js';
+import { Environment } from './environment.mjs';
+import { findFile } from './utils.mjs';
 
-import Bugsnag from '@bugsnag/js';
-import fs from 'fs';
-import path from 'path';
-import { promisify } from 'util';
-import { Environment } from './environment';
+export const Bugsnag = bugsnag.default;
 
 interface PackageJson {
     name: string;
@@ -20,20 +19,18 @@ function onError(): boolean {
 }
 
 export async function startBugsnag(env: Environment): Promise<void> {
-    const readFile = promisify(fs.readFile);
     let version: string | undefined;
 
     try {
         if (process.env.npm_package_version) {
             version = process.env.npm_package_version;
         } else {
-            const json = JSON.parse(
-                await readFile(path.join(path.dirname(require.main?.filename || __dirname), 'package.json'), 'utf-8'),
-            ) as PackageJson;
+            const filename = await findFile('package.json');
+            const json = JSON.parse(await readFile(filename, 'utf-8')) as PackageJson;
 
             version = json.version;
         }
-    } catch (e) {
+    } catch {
         version = undefined;
     }
 
@@ -42,7 +39,7 @@ export async function startBugsnag(env: Environment): Promise<void> {
             apiKey: env.BUGSNAG_API_KEY,
             appVersion: version,
             appType: 'bot',
-            releaseStage: process.env.NODE_ENV || 'development',
+            releaseStage: env.NODE_ENV,
             onError,
         });
     }

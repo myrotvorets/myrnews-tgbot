@@ -16,8 +16,8 @@ export interface Environment {
 
 let env: Environment | undefined;
 
-export function getEnvironment(): Environment {
-    if (!env) {
+export function environment(reset = false): Environment {
+    if (!env || reset) {
         env = cleanEnv(process.env, {
             NODE_ENV: str({ default: 'development' }),
             BUGSNAG_API_KEY: str(),

@@ -1,0 +1,5 @@
+{
+    "extension": [".mts"],
+    "exclude-after-remap": true,
+    "reporter": ["text", "lcov"]
+}

@@ -1,21 +1,25 @@
 {
     "compilerOptions": {
-        "target": "es2020",
-        "module": "CommonJS",
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "noEmitOnError": true,
         "outDir": "./dist",
+        "rootDirs": ["src", "test"],
         "sourceMap": true,
         "declaration": false,
+        "removeComments": false,
         "strict": true,
+        "skipLibCheck": true,
         "noUnusedLocals": true,
         "noUnusedParameters": false,
         "noFallthroughCasesInSwitch": true,
         "esModuleInterop": true,
-        "resolveJsonModule": false,
-        "removeComments": false,
-        "typeRoots": [
-            "./node_modules/@types/"
-        ]
+        "resolveJsonModule": true
     },
-    "include": ["./src/**/*.ts", "./test/**/*.ts"],
+    "ts-node": {
+        "esm": true,
+        "transpileOnly": true
+    },
     "compileOnSave": true
 }
