@@ -41,7 +41,7 @@
     "@types/better-sqlite3": "^7.5.0",
     "@types/debug": "^4.1.5",
     "@types/jest": "^29.0.0",
-    "@types/node": ">= 12",
+    "@types/node": "^18.11.3",
     "better-sqlite3": "^7.5.3",
     "eslint-formatter-gha": "^1.2.0",
     "husky": "^8.0.0",
