@@ -1,13 +1,13 @@
-import * as f from '@adobe/helix-fetch';
+import * as f from '@adobe/fetch';
 import { getFeaturedImageResponse, getFeaturedImageResponseBadURL } from './fixtures/featuredimage';
 import { getFeaturedImageUrl, getPosts } from '../src/lib/wpapi';
 import { getPostsResponse } from './fixtures/posts';
 import type { PostData } from '../src/lib/types';
 
-jest.mock('@adobe/helix-fetch');
+jest.mock('@adobe/fetch');
 
 const mockedFetch = f.fetch as jest.MockedFunction<typeof f.fetch>; // NOSONAR
-const { Response } = jest.requireActual<typeof f>('@adobe/helix-fetch');
+const { Response } = jest.requireActual<typeof f>('@adobe/fetch');
 
 describe('getPosts', () => {
     it('should properly extract data', () => {

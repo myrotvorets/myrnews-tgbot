@@ -1,4 +1,4 @@
-import { fetch } from '@adobe/helix-fetch';
+import { fetch } from '@adobe/fetch';
 import type { PostData } from '../lib/types';
 
 interface WPPost {
