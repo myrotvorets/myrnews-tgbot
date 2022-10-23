@@ -39,7 +39,12 @@ async function sendNewPosts(bot: Telegraf<BotContext>, chat: number, data: PostD
             const text = generateDescription(entry);
             if (entry.img) {
                 dbg('Sending post %d as photo', entry.id);
-                await bot.telegram.sendPhoto(chat, entry.img, { caption: text, parse_mode, reply_markup });
+                try {
+                    await bot.telegram.sendPhoto(chat, entry.img, { caption: text, parse_mode, reply_markup });
+                } catch (e) {
+                    dbg('Retrying post %d as message', entry.id);
+                    await bot.telegram.sendMessage(chat, text, { parse_mode, reply_markup });
+                }
             } else {
                 dbg('Sending post %d as message', entry.id);
                 await bot.telegram.sendMessage(chat, text, { parse_mode, reply_markup });
