@@ -34,7 +34,7 @@
     "knex-mariadb": "^2.0.0",
     "mariadb": "^3.0.0",
     "telegraf": "^4.8.2",
-    "typegram": "^3.9.0"
+    "typegram": "^4.0.0"
   },
   "devDependencies": {
     "@myrotvorets/eslint-config-myrotvorets-ts": "^2.2.5",
