@@ -61,7 +61,7 @@ jobs:
         run: npm test
 
       - name: Trigger Docker build
-        uses: myrotvorets/trigger-repository-dispatch-action@b0fffc6d88d16c090016b4416140d6c85c56f6d4 # renovate: tag=1.1.1
+        uses: myrotvorets/trigger-repository-dispatch-action@dcc1a8db8562d98f3e2f84802c4a77a772aefaa2 # v2.0.0
         with:
           token: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
           type: tests-passed
