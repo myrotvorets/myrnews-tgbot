@@ -5,7 +5,7 @@ metadata:
   namespace: bots
 data:
   CHAT_ID: "-1001454569993"
-  KNEX_DRIVER: mariadb
+  KNEX_DRIVER: mysql2
   LISTEN_HOST: "0.0.0.0"
   NEWS_ENDPOINT: https://myrotvorets.news
   NODE_ENV: production
@@ -13,4 +13,5 @@ data:
   WEBHOOK_DOMAIN: tgbots.myrotvorets.center
   WEBHOOK_PORT: "3010"
   ENABLE_TRACING: "1"
-  ZIPKIN_ENDPOINT: http://zipkin.default.svc.k8s001.myrotvorets.center:9411/api/v2/spans
+  OTEL_TRACES_EXPORTER: zipkin
+  OTEL_EXPORTER_ZIPKIN_ENDPOINT: http://zipkin.default.svc.k8s001.myrotvorets.center:9411/api/v2/spans
