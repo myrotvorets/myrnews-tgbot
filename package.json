@@ -26,12 +26,10 @@
     "@myrotvorets/opentelemetry-configurator": "^6.4.2",
     "@opentelemetry/instrumentation-http": "^0.43.0",
     "@opentelemetry/instrumentation-knex": "^0.32.1",
-    "@types/localtunnel": "^2.0.2",
     "debug": "^4.3.4",
     "envalid": "^8.0.0",
-    "grammy": "^1.19.0",
+    "grammy": "^1.19.1",
     "knex": "^3.0.1",
-    "localtunnel": "^2.0.2",
     "mysql2": "^3.6.1",
     "node-fetch": "^3.3.2"
   },
@@ -40,8 +38,9 @@
     "@types/chai": "^4.3.6",
     "@types/chai-as-promised": "^7.1.6",
     "@types/debug": "^4.1.9",
+    "@types/localtunnel": "^2.0.2",
     "@types/mocha": "^10.0.2",
-    "@types/node": "^18.11.3",
+    "@types/node": "^20.8.3",
     "@types/node-fetch": "^2.6.6",
     "@types/supertest": "^2.0.14",
     "better-sqlite3": "^8.7.0",
@@ -52,6 +51,7 @@
     "eslint-plugin-mocha": "^10.2.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
+    "localtunnel": "^2.0.2",
     "mocha": "^10.2.0",
     "mocha-multi": "^1.1.7",
     "mocha-reporter-gha": "^1.1.0",
@@ -61,6 +61,9 @@
     "testdouble": "^3.19.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
+  },
+  "overrides": {
+    "ansi-color": "npm:@myrotvorets/ansi-color@^0.2.2"
   },
   "lint-staged": {
     "*.mts": "eslint --fix"
