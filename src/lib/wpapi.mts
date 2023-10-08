@@ -1,5 +1,5 @@
-import { fetch } from '@adobe/fetch';
-import type { PostData } from '../lib/types';
+import fetch from 'node-fetch';
+import type { PostData } from './types.mjs';
 
 interface WPPost {
     id: number;
@@ -20,7 +20,7 @@ interface WPMedia {
 }
 
 async function get<T>(url: string): Promise<T> {
-    const raw = await fetch(url, {});
+    const raw = await fetch(url);
     return (await raw.json()) as T;
 }
 

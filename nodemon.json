@@ -1,5 +1,6 @@
 {
   "watch": ["src"],
-  "ext": "ts",
-  "exec": "ts-node --transpile-only ./src/index.ts"
+  "ext": "mts",
+  "exec": "ts-node --transpile-only ./src/index-dev.mts",
+  "signal": "SIGTERM"
 }

@@ -1,99 +1,59 @@
-name: Build and Push Docker Image
+name: Docker CI
 
 on:
-  repository_dispatch:
-    types:
-      - tests-passed
-
-env:
-  IMAGE_NAME: myrotvorets/myrnews-tgbot
-  EVENT: ${{ github.event.client_payload.event_name }}
-
-permissions:
-  contents: read
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'test/**'
+    tags:
+      - '*.*.*'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - 'test/**'
+  workflow_dispatch:
 
 jobs:
-  build:
+  docker:
+    name: Build Docker image
     runs-on: ubuntu-latest
-    outputs:
-      refkind: ${{ steps.kind.outputs.kind }}
-      reference: ${{ github.event.client_payload.ref }}
-      commit: ${{ github.event.client_payload.sha }}
-    permissions:
-      contents: read
-      packages: read
     steps:
-      - name: Set image creation timestamp
-        run: echo TIMESTAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
-
       - name: Checkout
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
-        with:
-          ref: ${{ github.event.client_payload.sha }}
 
-      - name: Analyze commit info
-        id: kind
-        uses: myrotvorets/composite-actions/refkind@master
-        with:
-          ref: ${{ github.event.client_payload.ref }}
-
-      - name: Determine Docker tags
+      - name: Get metadata
         id: meta
-        uses: myrotvorets/composite-actions/docker-tags@master
+        uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
-          refkind: ${{ steps.kind.outputs.kind }}
-          refname: ${{ steps.kind.outputs.name }}
-          commit_hash: ${{ github.event.client_payload.sha }}
-          image_name: ${{ env.IMAGE_NAME }}
-          default_branch: ${{ github.event.repository.default_branch }}
+          images: myrotvorets/myrnews-tgbot
+          tags: |
+            type=edge
+            type=ref,event=pr
+            type=semver,pattern={{major}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{version}}
 
-      - name: Login to DockerHub
-        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
-        if: ${{ env.EVENT != 'pull_request' }}
-        with:
-          username: ${{ secrets.DOCKER_LOGIN }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc.local
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
 
-      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+      - name: Login to DockerHub
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          username: ${{ secrets.DOCKER_LOGIN }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+        if: ${{ github.event_name != 'pull_request' }}
 
       - name: Build and push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
-          push: ${{ env.EVENT != 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           context: .
           file: ./Dockerfile
-          labels: |
-            org.opencontainers.image.title=${{ github.event.repository.name }}
-            org.opencontainers.image.description=${{ github.event.repository.description }}
-            org.opencontainers.image.url=${{ github.event.repository.html_url }}
-            org.opencontainers.image.source=${{ github.event.repository.clone_url }}
-            org.opencontainers.image.version=${{ steps.meta.outputs.version }}
-            org.opencontainers.image.created=${{ env.TIMESTAMP }}
-            org.opencontainers.image.revision=${{ github.event.client_payload.sha }}
-            org.opencontainers.image.licenses=${{ github.event.repository.license.spdx_id }}
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-    if: ${{ needs.build.outputs.refkind == 'tag' }}
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
-        with:
-          ref: ${{ needs.build.outputs.commit }}
-
-      - name: Create a release
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
-        with:
-          generate_release_notes: true
-          tag_name: ${{ needs.build.outputs.reference }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPOSITORY_ACCESS_TOKEN }}
+          labels: ${{ steps.meta.outputs.labels }}

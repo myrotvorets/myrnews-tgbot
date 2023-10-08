@@ -1,4 +1,4 @@
-import { Knex } from 'knex';
+import type { Knex } from 'knex';
 
 export function up(db: Knex): Promise<unknown> {
     return db.schema.createTable('posts', (table: Knex.CreateTableBuilder) => {

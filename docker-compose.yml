@@ -1,17 +1,17 @@
 # Development / integration testing only
-version: '3.0'
-
 services:
   bot:
-    image: node:lts-slim@sha256:bfa807593c4e904c9dbdeec45a266d38040804e498c714bddf59734a1ed34730
+    image: node:lts-slim
     volumes:
-      - './:/src/bot'
-    working_dir: /src/bot
-    command: npm run nodemon
+      - './:/srv/bot'
+    working_dir: /srv/bot
+    command: npm run start:dev
     env_file:
       - .env
     depends_on:
       - zipkin
 
   zipkin:
-    image: openzipkin/zipkin@sha256:46ee38f01382e72de617f704441fd935390c6eeb762e88869530e661f1339765
+    image: openzipkin/zipkin
+    ports:
+      - '9411:9411'
