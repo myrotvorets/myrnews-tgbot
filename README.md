@@ -21,6 +21,7 @@ NEWS_ENDPOINT=https://myrotvorets.news
 DEBUG="bot:*"
 DEBUG_DEPTH="5"
 ENABLE_TRACING="1"
-ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
+OTEL_TRACES_EXPORTER=zipkin
+OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
 ```
 4. Run `docker-compose up`.
