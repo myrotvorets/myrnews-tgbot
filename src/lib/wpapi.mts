@@ -31,7 +31,7 @@ export async function getPosts(baseUrl: string): Promise<PostData[]> {
             id: post.id,
             link: post.link,
             title: post.title.rendered,
-            excerpt: post.excerpt.rendered.replace(/<[^>]+>/gu, ''),
+            excerpt: post.excerpt.rendered.replace(/<[^>]+(>|$)/gu, ''),
             featuredMedia: post.featured_media,
         }),
     );
