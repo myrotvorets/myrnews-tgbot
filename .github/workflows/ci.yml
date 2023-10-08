@@ -9,6 +9,7 @@ permissions:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -19,3 +20,29 @@ jobs:
         with:
           node-version: lts/*
           registry-url: https://npm.pkg.github.com
+
+  lint:
+    name: Check Code Style
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Run code style check
+        uses: myrotvorets/composite-actions/node-run-script@master
+        with:
+          registry-url: https://npm.pkg.github.com
+          script: lint
+
+  typecheck:
+    name: Check Types
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Run type check
+        uses: myrotvorets/composite-actions/node-run-script@master
+        with:
+          registry-url: https://npm.pkg.github.com
+          script: typecheck

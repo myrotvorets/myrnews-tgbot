@@ -6,7 +6,7 @@
   "description": "Myrotvorets.news Telegram Bot",
   "scripts": {
     "build": "tsc",
-    "checktypes": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint -f gha .",
     "lint:fix": "eslint --fix .",
     "prestart:dev": "ts-node --transpile-only ./test/migrate.mts",
