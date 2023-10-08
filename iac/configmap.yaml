@@ -14,4 +14,4 @@ data:
   WEBHOOK_PORT: "3010"
   ENABLE_TRACING: "1"
   OTEL_TRACES_EXPORTER: zipkin
-  OTEL_EXPORTER_ZIPKIN_ENDPOINT: http://zipkin.default.svc.k8s001.myrotvorets.center:9411/api/v2/spans
+  OTEL_EXPORTER_ZIPKIN_ENDPOINT: http://zipkin.default.svc:9411/api/v2/spans
