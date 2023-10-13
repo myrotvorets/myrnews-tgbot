@@ -26,15 +26,17 @@ async function get<T>(url: string): Promise<T> {
 
 export async function getPosts(baseUrl: string): Promise<PostData[]> {
     const posts = await get<WPPost[]>(`${baseUrl}/wp-json/wp/v2/posts`);
-    return posts.map(
-        (post): PostData => ({
-            id: post.id,
-            link: post.link,
-            title: post.title.rendered,
-            excerpt: post.excerpt.rendered.replace(/<[^>]+(>|$)/gu, ''),
-            featuredMedia: post.featured_media,
-        }),
-    );
+    return posts
+        .map(
+            (post): PostData => ({
+                id: post.id,
+                link: post.link,
+                title: post.title.rendered,
+                excerpt: post.excerpt.rendered.replace(/<[^>]+(>|$)/gu, ''),
+                featuredMedia: post.featured_media,
+            }),
+        )
+        .reverse();
 }
 
 export async function getFeaturedImageUrl(baseUrl: string, id: number): Promise<string> {

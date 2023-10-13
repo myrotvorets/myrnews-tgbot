@@ -26,18 +26,18 @@ describe('wpapi', function () {
 
             const expected: PostData[] = [
                 {
-                    id: 58808,
-                    link: 'https://myrotvorets.news/post-1/',
-                    title: 'Post #1',
-                    excerpt: 'Excerpt #1',
-                    featuredMedia: 58817,
-                },
-                {
                     id: 58803,
                     link: 'https://myrotvorets.news/post-2/',
                     title: 'Post #2',
                     excerpt: 'Excerpt #2',
                     featuredMedia: 58805,
+                },
+                {
+                    id: 58808,
+                    link: 'https://myrotvorets.news/post-1/',
+                    title: 'Post #1',
+                    excerpt: 'Excerpt #1',
+                    featuredMedia: 58817,
                 },
             ];
 
