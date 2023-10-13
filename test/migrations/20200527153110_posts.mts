@@ -7,7 +7,7 @@ export function up(db: Knex): Promise<unknown> {
 }
 
 export function down(knex: Knex): Promise<unknown> {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env['NODE_ENV'] === 'production') {
         throw new Error('This is not meant to be run in the production environment');
     }
 

@@ -62,7 +62,7 @@ describe('environment', function () {
         let actual = { ...environment(true) };
         expect(actual).to.deep.equal(expected);
 
-        process.env.NODE_ENV = 'borked';
+        process.env['NODE_ENV'] = 'borked';
 
         actual = { ...environment() };
         expect(actual).to.deep.equal(expected);

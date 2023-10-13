@@ -20,7 +20,6 @@ CHAT_ID="<channel ID goes here>"
 NEWS_ENDPOINT=https://myrotvorets.news
 DEBUG="bot:*"
 DEBUG_DEPTH="5"
-ENABLE_TRACING="1"
 OTEL_TRACES_EXPORTER=zipkin
 OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
 ```

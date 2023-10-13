@@ -31,7 +31,7 @@ export function environment(reset = false): Environment {
             PATH_PREFIX: str({ default: '' }),
         });
 
-        process.env.NODE_ENV = env.NODE_ENV;
+        process.env['NODE_ENV'] = env.NODE_ENV;
     }
 
     return env;

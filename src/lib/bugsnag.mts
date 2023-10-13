@@ -15,15 +15,15 @@ interface PackageJson {
  * However, we leave it in case in future we may need to filter out some data etc.
  */
 function onError(): boolean {
-    return process.env.NODE_ENV === 'production';
+    return process.env['NODE_ENV'] === 'production';
 }
 
 export async function startBugsnag(env: Environment): Promise<void> {
     let version: string | undefined;
 
     try {
-        if (process.env.npm_package_version) {
-            version = process.env.npm_package_version;
+        if (process.env['npm_package_version']) {
+            version = process.env['npm_package_version'];
         } else {
             const filename = await findFile('package.json');
             const json = JSON.parse(await readFile(filename, 'utf-8')) as PackageJson;

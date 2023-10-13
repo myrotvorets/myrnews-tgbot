@@ -16,8 +16,7 @@ const dbg = debug('bot:debug');
 async function getNewPosts(baseUrl: string, db: Knex): Promise<PostData[]> {
     const result: PostData[] = [];
     const posts = await getPosts(baseUrl);
-    for (let i = posts.length - 1; i >= 0; --i) {
-        const post = posts[i];
+    for (const post of posts) {
         if (!(await checkPostExists(db, post.id))) {
             post.img = post.featuredMedia ? await getFeaturedImageUrl(baseUrl, post.featuredMedia) : undefined;
             result.push(post);
