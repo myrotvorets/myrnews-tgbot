@@ -50,7 +50,7 @@
     "eslint-formatter-gha": "^1.4.2",
     "eslint-plugin-mocha": "^10.2.0",
     "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^15.0.0",
     "localtunnel": "^2.0.2",
     "mocha": "^10.2.0",
     "mocha-multi": "^1.1.7",
