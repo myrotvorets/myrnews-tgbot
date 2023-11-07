@@ -39,7 +39,7 @@
     "@types/chai-as-promised": "^7.1.8",
     "@types/debug": "^4.1.11",
     "@types/localtunnel": "^2.0.3",
-    "@types/mocha": "^10.0.3",
+    "@types/mocha": "^10.0.4",
     "@types/node": "^20.8.10",
     "@types/node-fetch": "^2.6.8",
     "@types/supertest": "^2.0.15",
