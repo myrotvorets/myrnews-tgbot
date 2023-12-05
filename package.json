@@ -43,7 +43,7 @@
     "@types/node": "^20.10.3",
     "@types/node-fetch": "^2.6.9",
     "@types/supertest": "^2.0.16",
-    "better-sqlite3": "^9.2.1",
+    "better-sqlite3": "^9.2.2",
     "c8": "^8.0.1",
     "chai": "^4.3.10",
     "chai-as-promised": "^7.1.1",
