@@ -12,6 +12,6 @@ data:
   PATH_PREFIX: psbnews
   WEBHOOK_DOMAIN: tgbots.myrotvorets.center
   WEBHOOK_PORT: "3010"
-  ENABLE_TRACING: "1"
-  OTEL_TRACES_EXPORTER: zipkin
-  OTEL_EXPORTER_ZIPKIN_ENDPOINT: http://zipkin.default.svc:9411/api/v2/spans
+  OTEL_TRACES_EXPORTER: otlp
+  OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+  OTEL_EXPORTER_OTLP_ENDPOINT: otel-collector.default.svc.cluster.local:4317
