@@ -2,13 +2,13 @@
 import debug from 'debug';
 import { Knex } from 'knex';
 import { Bot } from 'grammy';
+import { getTracer } from '@myrotvorets/otel-utils';
 import { addPost, checkPostExists, getDB } from '../lib/db.mjs';
 import { Environment } from '../lib/environment.mjs';
 import { generateDescription } from '../lib/utils.mjs';
 import { getFeaturedImageUrl, getPosts } from '../lib/wpapi.mjs';
 import type { PostData } from '../lib/types.mjs';
 import { Bugsnag } from '../lib/bugsnag.mjs';
-import { configurator } from '../lib/tracing.mjs';
 
 const error = debug('bot:error');
 const dbg = debug('bot:debug');
@@ -54,7 +54,7 @@ async function sendNewPosts(bot: Bot, chat: number, data: PostData[]): Promise<v
 
 export function lifecycle(env: Environment, bot: Bot): void {
     const inner = (): void => {
-        void configurator.tracer().startActiveSpan('Get posts', async (span) => {
+        void getTracer().startActiveSpan('Get posts', async (span) => {
             try {
                 const posts = await getNewPosts(env.NEWS_ENDPOINT, getDB());
                 dbg('Got %d new posts', posts.length);
