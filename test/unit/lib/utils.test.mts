@@ -102,12 +102,15 @@ describe('Utils', function () {
 
         it('should throw when the file cannot be located', function () {
             when(statMock(matchers.isA(String) as string)).thenReject(new Error());
-            return expect(findFile('package.json')).to.be.rejectedWith(Error);
+            return findFile('package.json').then(
+                () => expect.fail('Should have thrown'),
+                (err) => expect(err).to.be.an('Error'),
+            );
         });
 
         it('should retrieve name and version from package.json', function () {
             when(statMock(matchers.isA(String) as string)).thenResolve({ isFile: () => true });
-            return expect(findFile('package.json')).to.be.fulfilled;
+            return findFile('package.json').then((result) => expect(result).to.be.a('string'));
         });
     });
 });
