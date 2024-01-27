@@ -21,7 +21,7 @@ describe('wpapi', function () {
     });
 
     describe('getPosts', function () {
-        it('should properly extract data', function () {
+        it('should properly extract data', async function () {
             when(fetchMock(matchers.isA(String) as string)).thenResolve(new Response(JSON.stringify(getPostsResponse)));
 
             const expected: PostData[] = [
@@ -41,27 +41,28 @@ describe('wpapi', function () {
                 },
             ];
 
-            return expect(getPosts('https://example.test')).to.become(expected);
+            const post = await getPosts('https://example.test');
+            return expect(post).to.deep.equal(expected);
         });
     });
 
     describe('getFeaturedImageURL', function () {
-        it('should return image URL', function () {
+        it('should return image URL', async function () {
             when(fetchMock(matchers.isA(String) as string)).thenResolve(
                 new Response(JSON.stringify(getFeaturedImageResponse)),
             );
 
-            return expect(getFeaturedImageUrl('https://example.test', 43762)).to.become(
-                'https://myrotvorets.news/wp-content/uploads/2019/10/Screenshot_5-3.png',
-            );
+            const url = await getFeaturedImageUrl('https://example.test', 43762);
+            return expect(url).to.equal('https://myrotvorets.news/wp-content/uploads/2019/10/Screenshot_5-3.png');
         });
 
-        it('should return empty URL if the original image URL is malformed', function () {
+        it('should return empty URL if the original image URL is malformed', async function () {
             when(fetchMock(matchers.isA(String) as string)).thenResolve(
                 new Response(JSON.stringify(getFeaturedImageResponseBadURL)),
             );
 
-            return expect(getFeaturedImageUrl('https://example.test', 43762)).to.become('');
+            const url = await getFeaturedImageUrl('https://example.test', 43762);
+            return expect(url).to.equal('');
         });
     });
 });

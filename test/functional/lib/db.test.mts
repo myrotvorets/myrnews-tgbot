@@ -29,8 +29,8 @@ describe('Database', function () {
 
         it('should insert a new row', async function () {
             await addPost(trx, 1);
-            return expect(trx.select<Post>('post_id').from('posts').where('post_id', 1).first()).to.eventually.not.be
-                .undefined;
+            const post = await trx.select<Post>('post_id').from('posts').where('post_id', 1).first();
+            return expect(post).not.be.undefined;
         });
 
         it('should return an array with the new post ID', async function () {
