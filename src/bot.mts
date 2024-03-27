@@ -6,9 +6,9 @@ import { lifecycle } from './controllers/lifecycle.mjs';
 import { Bugsnag, startBugsnag } from './lib/bugsnag.mjs';
 import { createServer } from './lib/server.mjs';
 
-function fatal(err: Error): void {
+function fatal(err: unknown): void {
     console.error(err);
-    Bugsnag.notify(err);
+    Bugsnag.notify(err as Error);
     process.exit(1);
 }
 
