@@ -36,9 +36,9 @@
   },
   "devDependencies": {
     "@myrotvorets/eslint-config-myrotvorets-ts": "^2.24.0",
+    "@n8n/localtunnel": "^2.1.0",
     "@types/chai": "^4.3.11",
     "@types/debug": "^4.1.12",
-    "@types/localtunnel": "^2.0.4",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.15",
     "@types/node-fetch": "^2.6.11",
@@ -50,7 +50,6 @@
     "eslint-plugin-mocha": "^10.2.0",
     "husky": "^9.0.9",
     "lint-staged": "^15.2.1",
-    "localtunnel": "^2.0.2",
     "mocha": "^10.2.0",
     "mocha-multi": "^1.1.7",
     "mocha-reporter-gha": "^1.1.1",

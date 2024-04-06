@@ -1,6 +1,6 @@
 import './lib/tracing.mjs';
 
-import localtunnel from 'localtunnel';
+import localtunnel from '@n8n/localtunnel';
 
 if (process.env['WEBHOOK_PORT']) {
     const port = +process.env['WEBHOOK_PORT'] || 3001;
