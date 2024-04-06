@@ -13,6 +13,7 @@ spec:
       labels:
         app: myrnews-bot
     spec:
+      automountServiceAccountToken: false
       dnsConfig:
         nameservers:
           - "8.8.8.8"
@@ -35,6 +36,7 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
+              ephemeral-storage: "10Mi"
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
