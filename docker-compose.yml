@@ -12,6 +12,6 @@ services:
       - zipkin
 
   zipkin:
-    image: openzipkin/zipkin@sha256:36fb5f01f47cc43500273b93fd40e1f5c945d3aff0680275334effa24bc9866c
+    image: openzipkin/zipkin@sha256:c1b981074d5ac8c6d86bd0ee554a00ff8541453ab7fd9d0604a637d1e47db3d9
     ports:
       - '9411:9411'
