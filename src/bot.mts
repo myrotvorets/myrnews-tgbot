@@ -17,7 +17,7 @@ await startBugsnag(env);
 
 try {
     const bot = new Bot(env.BOT_TOKEN);
-    bot.api.config.use(autoRetry({ maxRetryAttempts: 10, maxDelaySeconds: 60, retryOnInternalServerErrors: true }));
+    bot.api.config.use(autoRetry({ maxRetryAttempts: 10, maxDelaySeconds: 60 }));
 
     if (env.WEBHOOK_DOMAIN && env.WEBHOOK_PORT) {
         const random = randomBytes(32).toString('hex');
