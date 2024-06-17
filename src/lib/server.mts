@@ -22,7 +22,7 @@ export function createServer<C extends Context = Context>(
             const url = new URL(req.url, `https://${req.headers.host}`);
             if (url.pathname === path) {
                 const handler = webhookCallback(bot, key ? 'https' : 'http');
-                handler(req, res);
+                void handler(req, res);
                 return;
             }
         }
