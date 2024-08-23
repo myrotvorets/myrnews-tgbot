@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@myrotvorets/eslint-config-myrotvorets-ts": "^2.24.0",
-    "@n8n/localtunnel": "^2.1.0",
+    "@n8n/localtunnel": "^3.0.0",
     "@types/chai": "^4.3.11",
     "@types/debug": "^4.1.12",
     "@types/mocha": "^10.0.6",
