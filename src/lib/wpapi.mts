@@ -32,6 +32,7 @@ export async function getPosts(baseUrl: string): Promise<PostData[]> {
                 id: post.id,
                 link: post.link,
                 title: post.title.rendered,
+                // eslint-disable-next-line sonarjs/slow-regex
                 excerpt: post.excerpt.rendered.replace(/<[^>]+(>|$)/gu, ''),
                 featuredMedia: post.featured_media,
             }),
@@ -45,7 +46,7 @@ export async function getFeaturedImageUrl(baseUrl: string, id: number): Promise<
     try {
         const url = new URL(link);
         return url.href;
-    } catch (e) {
+    } catch {
         return '';
     }
 }

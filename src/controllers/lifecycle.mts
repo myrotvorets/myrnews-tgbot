@@ -35,7 +35,7 @@ async function sendNewPosts(bot: Bot, chat: number, data: PostData[]): Promise<v
                 dbg('Sending post %d as photo', entry.id);
                 try {
                     await bot.api.sendPhoto(chat, entry.img, { caption: text, parse_mode });
-                } catch (e) {
+                } catch {
                     dbg('Retrying post %d as message', entry.id);
                     await bot.api.sendMessage(chat, text, { parse_mode });
                 }
