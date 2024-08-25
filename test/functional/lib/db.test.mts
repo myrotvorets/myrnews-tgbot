@@ -42,11 +42,13 @@ describe('Database', function () {
     describe('checkPostExists()', function (): void {
         it('should return true when the post exists', async function () {
             const result = await checkPostExists(db, 43045);
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             expect(result).to.be.true;
         });
 
         it('should return false when the post does not exist', async function () {
             const result = await checkPostExists(db, 0);
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
             expect(result).to.be.false;
         });
     });

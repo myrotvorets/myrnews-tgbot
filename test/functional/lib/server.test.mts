@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/assertions-in-tests */
 import { Bot } from 'grammy';
 import request from 'supertest';
 import { Server, createServer } from '../../../src/lib/server.mjs';

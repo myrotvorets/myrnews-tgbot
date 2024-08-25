@@ -104,7 +104,7 @@ describe('Utils', function () {
             when(statMock(matchers.isA(String) as string)).thenReject(new Error());
             return findFile('package.json').then(
                 () => expect.fail('Should have thrown'),
-                (err) => expect(err).to.be.an('Error'),
+                (err: unknown) => expect(err).to.be.an('Error'),
             );
         });
 
