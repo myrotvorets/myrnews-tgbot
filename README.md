@@ -23,4 +23,4 @@ DEBUG_DEPTH="5"
 OTEL_TRACES_EXPORTER=zipkin
 OTEL_EXPORTER_ZIPKIN_ENDPOINT=http://zipkin:9411/api/v2/spans
 ```
-4. Run `docker-compose up`.
+4. Run `docker compose up`.
