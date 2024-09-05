@@ -1,6 +1,6 @@
 {
   "watch": ["src"],
   "ext": "mts",
-  "exec": "ts-node --transpile-only ./src/index-dev.mts",
+  "exec": "node --import=./loader.mjs ./src/index-dev.mts",
   "signal": "SIGTERM"
 }

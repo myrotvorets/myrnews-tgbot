@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint -f gha .",
     "lint:fix": "eslint --fix .",
-    "prestart:dev": "ts-node --transpile-only ./test/migrate.mts",
+    "prestart:dev": "node --import=./loader.mjs ./test/migrate.mts",
     "start:dev": "nodemon",
     "start": "node ./dist/src/index.mjs",
     "test": "mocha",
