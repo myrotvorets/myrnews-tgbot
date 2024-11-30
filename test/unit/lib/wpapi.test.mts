@@ -1,28 +1,19 @@
+import { mock } from 'node:test';
 import { expect } from 'chai';
-import { TestDouble, func, matchers, replaceEsm, when } from 'testdouble';
+import { afterEach } from 'mocha';
 import { getFeaturedImageResponse, getFeaturedImageResponseBadURL } from './../../fixtures/featuredimage.mjs';
 import { getPostsResponse } from './../../fixtures/posts.mjs';
 import type { PostData } from '../../../src/lib/types.mjs';
+import { getFeaturedImageUrl, getPosts } from '../../../src/lib/wpapi.mjs';
 
 describe('wpapi', function () {
-    let fetchMock: TestDouble<typeof import('node-fetch').default>;
-    let Response: typeof import('node-fetch').Response;
-    let getFeaturedImageUrl: typeof import('../../../src/lib/wpapi.mjs').getFeaturedImageUrl;
-    let getPosts: typeof import('../../../src/lib/wpapi.mjs').getPosts;
-
-    before(async function () {
-        fetchMock = func<typeof fetchMock>();
-
-        ({ Response } = await import('node-fetch'));
-
-        await replaceEsm('node-fetch', undefined, fetchMock);
-
-        ({ getFeaturedImageUrl, getPosts } = await import('../../../src/lib/wpapi.mjs'));
+    afterEach(function () {
+        mock.reset();
     });
 
     describe('getPosts', function () {
         it('should properly extract data', async function () {
-            when(fetchMock(matchers.isA(String) as string)).thenResolve(new Response(JSON.stringify(getPostsResponse)));
+            mock.method(globalThis, 'fetch', () => Promise.resolve(new Response(JSON.stringify(getPostsResponse))));
 
             const expected: PostData[] = [
                 {
@@ -48,8 +39,8 @@ describe('wpapi', function () {
 
     describe('getFeaturedImageURL', function () {
         it('should return image URL', async function () {
-            when(fetchMock(matchers.isA(String) as string)).thenResolve(
-                new Response(JSON.stringify(getFeaturedImageResponse)),
+            mock.method(globalThis, 'fetch', () =>
+                Promise.resolve(new Response(JSON.stringify(getFeaturedImageResponse))),
             );
 
             const url = await getFeaturedImageUrl('https://example.test', 43762);
@@ -57,8 +48,8 @@ describe('wpapi', function () {
         });
 
         it('should return empty URL if the original image URL is malformed', async function () {
-            when(fetchMock(matchers.isA(String) as string)).thenResolve(
-                new Response(JSON.stringify(getFeaturedImageResponseBadURL)),
+            mock.method(globalThis, 'fetch', () =>
+                Promise.resolve(new Response(JSON.stringify(getFeaturedImageResponseBadURL))),
             );
 
             const url = await getFeaturedImageUrl('https://example.test', 43762);

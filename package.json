@@ -31,8 +31,7 @@
     "envalid": "^8.0.0",
     "grammy": "^1.19.2",
     "knex": "^3.1.0",
-    "mysql2": "^3.6.5",
-    "node-fetch": "^3.3.2"
+    "mysql2": "^3.6.5"
   },
   "devDependencies": {
     "@myrotvorets/eslint-config-myrotvorets-ts": "^2.24.0",
@@ -56,7 +55,7 @@
     "mocha-reporter-sonarqube": "^2.0.6",
     "nodemon": "^3.0.3",
     "supertest": "^7.0.0",
-    "testdouble": "^3.20.1",
+    "testdouble": "^3.20.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },

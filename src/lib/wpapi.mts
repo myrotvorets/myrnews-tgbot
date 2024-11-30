@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import type { PostData } from './types.mjs';
 
 interface WPPost {
