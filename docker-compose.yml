@@ -1,7 +1,7 @@
 # Development / integration testing only
 services:
   bot:
-    image: node:lts-slim@sha256:4b44c32c9f3118d60977d0dde5f758f63c4f9eac8ddee4275277239ec600950f
+    image: node:lts-slim@sha256:a4b757cd491c7f0b57f57951f35f4e85b7e1ad54dbffca4cf9af0725e1650cd8
     volumes:
       - './:/srv/bot'
     working_dir: /srv/bot
@@ -12,6 +12,6 @@ services:
       - zipkin
 
   zipkin:
-    image: openzipkin/zipkin@sha256:32599e9a997272a15a57f1775709ad86f973de98b407b9a1cbcfcb0d9b60d23b
+    image: openzipkin/zipkin@sha256:458b8d0b51e4cc3be0ee51c816fcb3d97a316e4a37462efbe2cb5c9d2a262f5b
     ports:
       - '9411:9411'
