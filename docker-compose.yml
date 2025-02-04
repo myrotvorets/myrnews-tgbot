@@ -1,7 +1,7 @@
 # Development / integration testing only
 services:
   bot:
-    image: node:lts-slim@sha256:35531c52ce27b6575d69755c73e65d4468dba93a25644eed56dc12879cae9213
+    image: node:lts-slim@sha256:83fdfa2a4de32d7f8d79829ea259bd6a4821f8b2d123204ac467fbe3966450fc
     volumes:
       - './:/srv/bot'
     working_dir: /srv/bot
