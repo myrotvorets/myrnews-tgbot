@@ -1,6 +1,5 @@
 import { mock } from 'node:test';
 import { expect } from 'chai';
-import { afterEach } from 'mocha';
 import { getFeaturedImageResponse, getFeaturedImageResponseBadURL } from './../../fixtures/featuredimage.mjs';
 import { getPostsResponse } from './../../fixtures/posts.mjs';
 import type { PostData } from '../../../src/lib/types.mjs';
