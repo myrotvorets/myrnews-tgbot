@@ -23,7 +23,7 @@
     "@bugsnag/js": "^8.0.0",
     "@grammyjs/auto-retry": "^2.0.0",
     "@myrotvorets/envalidators": "^2.1.0",
-    "@myrotvorets/opentelemetry-configurator": "^7.3.0",
+    "@myrotvorets/opentelemetry-configurator": "^8.0.0",
     "@myrotvorets/otel-utils": "^1.1.2",
     "@opentelemetry/instrumentation-http": "^0.203.0",
     "@opentelemetry/instrumentation-knex": "^0.48.0",
