@@ -43,7 +43,7 @@ jobs:
           ref: ${{ env.REF }}
 
       - name: Prepare the files
-        uses: myrotvorets/composite-actions/prepare-k8s-deployment@7730a4115961fd7f7265421bfb50f752f87b98e8 # master
+        uses: myrotvorets/composite-actions/prepare-k8s-deployment@96017f90942616677d9fdad3cf29cefcec02d795 # master
         with:
           image_version: ${{ env.IMAGE_VERSION }}
           secret_environment: ${{ secrets.SECRET_ENVIRONMENT }}
