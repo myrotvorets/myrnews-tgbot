@@ -16,7 +16,7 @@ jobs:
       packages: read
     steps:
       - name: Build and test
-        uses: myrotvorets/composite-actions/build-test-nodejs@3979e6120a77babddec6e34f9008f4ed8d611c61 # master
+        uses: myrotvorets/composite-actions/build-test-nodejs@c2f2ef855b626c801b87bf3297b4a3b34f378489 # master
         with:
           node-version: lts/*
           registry-url: https://npm.pkg.github.com
@@ -29,7 +29,7 @@ jobs:
       packages: read
     steps:
       - name: Run code style check
-        uses: myrotvorets/composite-actions/node-run-script@3979e6120a77babddec6e34f9008f4ed8d611c61 # master
+        uses: myrotvorets/composite-actions/node-run-script@c2f2ef855b626c801b87bf3297b4a3b34f378489 # master
         with:
           registry-url: https://npm.pkg.github.com
           script: lint
@@ -42,7 +42,7 @@ jobs:
       packages: read
     steps:
       - name: Run type check
-        uses: myrotvorets/composite-actions/node-run-script@3979e6120a77babddec6e34f9008f4ed8d611c61 # master
+        uses: myrotvorets/composite-actions/node-run-script@c2f2ef855b626c801b87bf3297b4a3b34f378489 # master
         with:
           registry-url: https://npm.pkg.github.com
           script: typecheck
