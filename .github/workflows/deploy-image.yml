@@ -50,7 +50,7 @@ jobs:
           path: iac
 
       - name: Start deployment
-        uses: chrnorm/deployment-action@55729fcebec3d284f60f5bcabbd8376437d696b1 # v2.0.7
+        uses: chrnorm/deployment-action@500aa6a23c81ffa1acf71072aee3cfa2cc2e556a # v2.0.8
         id: deployment
         with:
           token: "${{ github.token }}"
